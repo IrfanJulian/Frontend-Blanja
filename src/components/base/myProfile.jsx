@@ -1,9 +1,24 @@
-import React from 'react'
+import React, {useState,useEffect} from 'react'
 import CheckBox from './check-box'
 import line from '../../assets/Line.png'
-import madara from '../../assets/glow deo green.png'
+import icon from '../../assets/user (1).png'
+import axios from 'axios'
 
 const MyProfile = () => {
+
+    const id = localStorage.getItem('id')
+    const [data, setData] = useState()
+    useEffect(()=>{
+        const getData = async () => {
+            const res = await axios({
+                method: 'GET',
+                url: `http://localhost:4500/user/${id}`
+            })
+            setData(res.data.data[0])
+        }
+        getData()
+    }, [id])
+
   return (
     <div className='w-full'>
         <div className="p-10 border-2 border-gray-300 rounded-lg">
@@ -45,9 +60,15 @@ const MyProfile = () => {
                 </div>
                 <div className="w-1/12"><img src={line} alt="" className='mx-auto h-3/4' /></div>
                 <div className="w-3/12">
+                    { data ?
                     <div className="wrapperimg w-[10rem] h-[10rem] overflow-hidden rounded-full mx-auto">
-                        <img src={madara} alt="" className='w-[10rem] h-[10rem]' />
+                        <img src={data.photo} alt="" className='w-[10rem] h-[10rem]' />
                     </div>
+                    : 
+                    <div className="wrapperimg w-[10rem] h-[10rem] overflow-hidden rounded-full mx-auto">
+                        <img src={icon} alt="" className='w-[10rem] h-[10rem]' />
+                    </div>
+                    }
                     <div className="file pt-10">
                         <input type="file" id='file' hidden />
                         <label htmlFor="file" className='px-10 py-2 border text-xl font-semibold border-gray-400 text-gray-400 rounded-full'>Select image</label>

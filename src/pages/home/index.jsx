@@ -40,15 +40,19 @@ const Home = () => {
             <p className='text-lg text-start my-5 text-gray-400'>What are you looking for</p>
             <CategorySlider />
         </div>
-        { data ? data.map((product)=>
-        <Link to={`/product-detail/${product.id}`}>
+        { data ? 
+        <Link to={`/product-detail`}>
             <div className="container mx-auto mb-[5rem]">
                 <p className='text-4xl font-bold text-black text-start'>Products</p>
                 <p className='text-lg text-start my-5 text-gray-400'>You've never seen it before</p>
-                <ProductList name={product.name} price={product.price} brand={product.brand} photo={product.photo} />
+                <div className='grid grid-cols-5 gap-12'>
+                { data ? data.map((product)=>
+                    <ProductList key={product.id} name={product.name} price={product.price} brand={product.brand} photo={product.photo} />
+                    ) : null }
+                </div>
             </div>
         </Link>
-        ) : null }
+        : null }
     </div>
   )
 }

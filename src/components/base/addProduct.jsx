@@ -1,30 +1,90 @@
-import React from 'react'
+import axios from 'axios'
+import React, {useState} from 'react'
+import Swal from 'sweetalert2'
 import add from '../../assets/add image.png'
 // import Dropdowns from './dropdowns'
 
 const AddProduct = () => {
+
+    const id = localStorage.getItem('id')
+    const [post, setPost] = useState({
+        name: '',
+        price: '',
+        brand: '',
+        stock: '',
+        condition: '',
+        description: '',
+        userid: id
+    })
+    const [photo, setPhoto] = useState([])
+    const handleChange = (e) => {
+        setPost({
+            ...post,
+            [e.target.name]: e.target.value
+        })
+    }
+    const handlePhoto = (e) => {
+        setPhoto(e.target.files[0])
+    }
+
+    const handleSubmit = async(e) => {
+        e.preventDefault()
+        const formData = new FormData()
+        formData.append('name', post.name)
+        formData.append('price', post.price)
+        formData.append('brand', post.brand)
+        formData.append('stock', post.stock)
+        formData.append('condition', post.condition)
+        formData.append('description', post.description)
+        formData.append('id', post.id)
+        formData.append('photo', photo, photo.name)
+        try {
+            await axios({
+                method: 'POST',
+                url: 'http://localhost:4500/products',
+                data: formData
+            })
+            Swal.fire({
+                icon: 'success',
+                title: 'Success...',
+                text: 'Add product Success'
+              })
+              window.location.reload()
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed...',
+                text: 'Add product failed'
+              })
+            console.log(error);
+        }
+    }
+
+
   return (
     <div>
         <div className="p-10 mb-10 border-2 border-gray-300 rounded-lg grid">
             <p className='text-3xl font-semibold text-start'>Inventory</p>
             <hr className='my-10 border' />
             <p className='text-gray-400 mb-3 text-start'>Product name</p>
-            <input type="text" className='py-3 px-5 border-2 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
+            <input type="text" name='name' onChange={handleChange} value={post.name} className='py-3 px-5 border-2 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
         </div>
         <div className="p-10 mb-10 border-2 border-gray-300 rounded-lg grid">
             <p className='text-3xl font-semibold text-start'>Item detail</p>
             <hr className='my-10 border' />
             <p className='text-gray-400 mb-3 text-start'>Unit price</p>
-            <input type="text" className='py-3 px-5 border-2 mb-8 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
+            <input type="text" name='price' onChange={handleChange} value={post.price} className='py-3 px-5 border-2 mb-8 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
+            <p className='text-gray-400 mb-3 text-start'>Unit price</p>
+            <input type="text" name='brand' onChange={handleChange} value={post.brand} className='py-3 px-5 border-2 mb-8 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
             <p className='text-gray-400 mb-3 text-start'>Stock</p>
-            <input type="text" className='py-3 px-5 border-2 mb-8 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
+            <input type="text" name='stock' onChange={handleChange} value={post.stock} className='py-3 px-5 border-2 mb-8 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
             <p className='text-gray-400 mb-3 text-start'>Condition</p>
-            <input type="text" className='py-3 px-5 border-2 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
+            <input type="text" name='condition' onChange={handleChange} value={post.condition} className='py-3 px-5 border-2 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
         </div>
         <div className="p-10 mb-10 border-2 border-gray-300 rounded-lg grid">
             <p className='text-3xl font-semibold text-start'>Photo of product</p>
             <hr className='my-10 border' />
-            <input type="file" id='file' hidden />
+            <input type="file" id='file' name='photo' onChange={handlePhoto} hidden />
             <label htmlFor="file">
                 <div className="box rounded-xl py-16 w-3/4 border-4 border-dashed border-gray-300 text-3xl text-gray-300 font-semibold mx-auto">
                     <img src={add} className='w-1/4 h-1/4 mx-auto' alt="" />
@@ -35,10 +95,10 @@ const AddProduct = () => {
         <div className="p-10 mb-10 border-2 border-gray-300 rounded-lg grid">
             <p className='text-3xl font-semibold text-start'>Description</p>
             <hr className='my-10 border' />
-            <input type="text" placeholder='Insert your product description . . .' className='py-16 px-5 border-2 mb-8 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
+            <input type="text" name='description' onChange={handleChange} value={post.description} placeholder='Insert your product description . . .' className='py-16 px-5 border-2 mb-8 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
         </div>
         <div className="grid mb-10">
-            <button className='bg-red-600 py-3 px-20 rounded-full text-white text-xl font-semibold ml-auto'>Sell</button>
+            <button type='submit' onClick={handleSubmit} className='bg-red-600 py-3 px-20 rounded-full text-white text-xl font-semibold ml-auto'>Sell</button>
         </div>
     </div>
   )

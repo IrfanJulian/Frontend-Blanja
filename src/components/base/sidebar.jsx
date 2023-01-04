@@ -38,7 +38,6 @@ const Sidebar = ({ on1, on2, on3 }) => {
                 </div>
                 <div className="wrapper py-5 mx-10">
                     <p className='text-2xl font-semibold'>Irfan Julian</p>
-                    <Link><p className='text-xl mt-2 text-gray-500'>Ubah Profile</p></Link>
                 </div>
             </div>
             <div className="wrapper -mt-80 mr-16">

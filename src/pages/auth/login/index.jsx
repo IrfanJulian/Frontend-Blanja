@@ -39,8 +39,7 @@ const Login = () => {
             Swal.fire({
                 icon: 'success',
                 title: 'Success...',
-                text: 'Login Success',
-                footer: '<a href="">Why do I have this issue?</a>'
+                text: 'Login Success'
               })
             navigate('/home')
     }

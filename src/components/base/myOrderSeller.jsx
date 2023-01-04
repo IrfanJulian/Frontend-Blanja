@@ -6,7 +6,7 @@ const MyOrder = () => {
     <div>
         <div>
             <div className="px-10 pt-10 pb-20 mb-10 border-2 border-gray-300 rounded-lg">
-                <p className='text-4xl font-semibold text-start'>My order</p>
+                <p className='text-4xl font-semibold text-start'>My products</p>
                 <div className="flex mt-10 mr-10">
                     <button className='text-gray-400 mx-auto text-xl py-4 px-10 rounded-t-xl font-semibold hover:bg-gray-100 active:border-b-2 border-red-600'>All items</button>
                     <button className='text-gray-400 mx-auto text-xl py-4 px-10 rounded-t-xl font-semibold hover:bg-gray-100 active:border-b-2 border-red-600'>Not yet paid</button>

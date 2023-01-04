@@ -84,12 +84,12 @@ const Navbar = () => {
                     {!photo === undefined ?
                     <Link onClick={()=>setActive(true)}>
                         <div className='ml-20 overflow-hidden w-[2.5rem] h-[2.5rem] rounded-full border'>
-                            <img src={photo} alt="icon" className='h-[4rem] w-[2.5rem]' />
+                            <img src={user} alt="icon" className='h-[4rem] w-[2.5rem]' />
                         </div>
                     </Link> :
                     <Link onClick={()=>setActive(true)}>
                         <div className='ml-20 overflow-hidden w-[2rem] h-[2rem] rounded-full border'>
-                            <img src={user} alt="icon" className='h-[2rem] w-[2rem]' />
+                            <img src={photo} alt="icon" className='h-[2rem] w-[2rem]' />
                         </div>
                     </Link>
                     }
