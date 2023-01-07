@@ -7,11 +7,15 @@ import min from '../../assets/min.png'
 import plus from '../../assets/plus.png'
 import ProductList from '../../components/base/product-list'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 const ProductDetail = () => {
 
+    const id_customer = localStorage.getItem('id')
     const [data, setData] = useState()
     const {id} = useParams()
+    const [qty, setQty] = useState(1)
+    // const [size, setSize] = useState()
     
     useEffect(()=> {
         const getData = async() => {
@@ -24,7 +28,37 @@ const ProductDetail = () => {
         getData()
     }, [id])
 
-    console.log(data);
+    const [add, setAdd] = useState({
+        id_customer: '',
+        id_seller: '',
+        id_product: '',
+        qty: qty,
+        total_price: ''
+    })
+
+    if(data){
+        add.id_customer = id_customer
+        add.id_seller = data.id_seller
+        add.id_product = data.id
+        add.qty = qty
+        add.total_price = data.price
+    }
+    console.log(setAdd);
+
+    const addBag = async () => {
+        try {
+            await axios.post(`http://localhost:4500/transactions`, add)
+            Swal.fire({
+                icon: 'success',
+                title: 'Success...',
+                text: 'Check your products in my bag page'
+              })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // console.log(data);
 
   return (
     <div>
@@ -73,15 +107,15 @@ const ProductDetail = () => {
                             <div className="qty">
                                 <p className='text-xl text-black font-semibold text-start my-5'>Jumlah</p>
                                 <div className="qty my-auto ml-auto mr-20 flex">
-                                    <Link><img src={min} alt="btn" className='w-[3rem] h-[3rem]' /></Link>
-                                    <p className='text-xl font-semibold text-black my-auto mx-5'>2</p>
-                                    <Link><img src={plus} alt="btn" className='w-[3rem] h-[3rem]' /></Link>
+                                    <Link><img src={min} onClick={()=>setQty(qty-1)} alt="btn" className='w-[3rem] h-[3rem]' /></Link>
+                                    <p className='text-xl font-semibold text-black my-auto mx-5'>{qty}</p>
+                                    <Link><img src={plus} onClick={()=>setQty(qty+1)} alt="btn" className='w-[3rem] h-[3rem]' /></Link>
                                 </div>
                             </div>
                         </div>
                         <div className="flex mt-14">
                             <button className='w-1/2 border border-black rounded-full py-4 mr-3'>Chat</button>
-                            <button className='w-1/2 border border-black rounded-full py-4 ml-3'>Add Bag</button>
+                            <button type='submit' onClick={addBag} className='w-1/2 border border-black rounded-full py-4 ml-3'>Add Bag</button>
                         </div>
                         <button className='w-full border bg-[#DB3022] rounded-full py-4 mt-8 text-white font-semibold text-xl'>Buy Now</button>
                     </div> 

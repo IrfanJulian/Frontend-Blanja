@@ -25,7 +25,7 @@ const Home = () => {
         }
         getData()
     }, [])
-    // console.log(data);
+    console.log(data);
 
   return (
     <div>
@@ -41,17 +41,17 @@ const Home = () => {
             <CategorySlider />
         </div>
         { data ? 
-        <Link to={`/product-detail`}>
             <div className="container mx-auto mb-[5rem]">
                 <p className='text-4xl font-bold text-black text-start'>Products</p>
                 <p className='text-lg text-start my-5 text-gray-400'>You've never seen it before</p>
                 <div className='grid grid-cols-5 gap-12'>
                 { data ? data.map((product)=>
-                    <ProductList key={product.id} name={product.name} price={product.price} brand={product.brand} photo={product.photo} />
-                    ) : null }
+                    <Link to={`/product-detail/${product.id}`} key={product.id}>
+                        <ProductList key={product.id} name={product.name} price={product.price} brand={product.brand} photo={product.photo} />
+                    </Link>
+                ) : null }
                 </div>
             </div>
-        </Link>
         : null }
     </div>
   )

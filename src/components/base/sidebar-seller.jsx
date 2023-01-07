@@ -25,7 +25,7 @@ const SidebarSeller = ({ on1, on2, on3, on4 }) => {
         }
         getData()
     }, [id])
-    console.log(data);
+    // console.log(data);
     const show = () => {
         setShowSide(true)
     }

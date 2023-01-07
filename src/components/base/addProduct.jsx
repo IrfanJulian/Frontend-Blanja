@@ -2,11 +2,10 @@ import axios from 'axios'
 import React, {useState} from 'react'
 import Swal from 'sweetalert2'
 import add from '../../assets/add image.png'
-// import Dropdowns from './dropdowns'
 
 const AddProduct = () => {
 
-    const id = localStorage.getItem('id')
+    const id_seller = localStorage.getItem('id')
     const [post, setPost] = useState({
         name: '',
         price: '',
@@ -14,7 +13,9 @@ const AddProduct = () => {
         stock: '',
         condition: '',
         description: '',
-        userid: id
+        id_seller: id_seller,
+        category: '',
+        size: ''
     })
     const [photo, setPhoto] = useState([])
     const handleChange = (e) => {
@@ -36,7 +37,9 @@ const AddProduct = () => {
         formData.append('stock', post.stock)
         formData.append('condition', post.condition)
         formData.append('description', post.description)
-        formData.append('id', post.id)
+        formData.append('id_seller', post.id_seller)
+        formData.append('category', post.category)
+        formData.append('size', post.size)
         formData.append('photo', photo, photo.name)
         try {
             await axios({
@@ -49,7 +52,7 @@ const AddProduct = () => {
                 title: 'Success...',
                 text: 'Add product Success'
               })
-              window.location.reload()
+            //   window.location.reload()
         } catch (error) {
             Swal.fire({
                 icon: 'error',
@@ -74,12 +77,16 @@ const AddProduct = () => {
             <hr className='my-10 border' />
             <p className='text-gray-400 mb-3 text-start'>Unit price</p>
             <input type="text" name='price' onChange={handleChange} value={post.price} className='py-3 px-5 border-2 mb-8 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
-            <p className='text-gray-400 mb-3 text-start'>Unit price</p>
+            <p className='text-gray-400 mb-3 text-start'>Brand</p>
             <input type="text" name='brand' onChange={handleChange} value={post.brand} className='py-3 px-5 border-2 mb-8 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
             <p className='text-gray-400 mb-3 text-start'>Stock</p>
             <input type="text" name='stock' onChange={handleChange} value={post.stock} className='py-3 px-5 border-2 mb-8 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
             <p className='text-gray-400 mb-3 text-start'>Condition</p>
-            <input type="text" name='condition' onChange={handleChange} value={post.condition} className='py-3 px-5 border-2 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
+            <input type="text" name='condition' onChange={handleChange} value={post.condition} className='py-3 px-5 mb-8 border-2 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
+            <p className='text-gray-400 mb-3 text-start'>Category</p>
+            <input type="text" name='category' onChange={handleChange} value={post.category} className='py-3 px-5 mb-8 border-2 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
+            <p className='text-gray-400 mb-3 text-start'>Size</p>
+            <input type="text" name='size' onChange={handleChange} value={post.size} className='py-3 px-5 border-2 outline-none rounded-xl font-semibold w-3/4 mr-auto' />
         </div>
         <div className="p-10 mb-10 border-2 border-gray-300 rounded-lg grid">
             <p className='text-3xl font-semibold text-start'>Photo of product</p>

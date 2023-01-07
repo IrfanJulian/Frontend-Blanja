@@ -1,7 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import jacket from '../../assets/jaket coach maternal.jfif'
 
 const MyOrder = () => {
+
+    const [data, setData] = useState()
+
   return (
     <div>
         <div>
@@ -23,16 +26,16 @@ const MyOrder = () => {
                         </div>
                         <div className="core">
                             <div className="wrapper mb-2">
-                                <p className='text-lg font-semibold text-start'>Order name :</p>
+                                <p className='text-lg font-semibold text-start'>Product name :</p>
                                 <p className='text-md text-gray-400 text-start'>Jacket Couch Maternal</p>
                             </div>
                             <div className="wrapper mb-2">
-                                <p className='text-lg font-semibold text-start'>Total price :</p>
+                                <p className='text-lg font-semibold text-start'>Price :</p>
                                 <p className='text-md text-gray-400 text-start'>$ 18.33</p>
                             </div>
                             <div className="wrapper mb-2">
-                                <p className='text-lg font-semibold text-start'>Status :</p>
-                                <p className='text-md text-red-600 font-bold text-start'>Packed</p>
+                                <p className='text-lg font-semibold text-start'>Stock :</p>
+                                <p className='text-md text-red-600 font-bold text-start'>2</p>
                             </div>
                         </div>
                     </div>

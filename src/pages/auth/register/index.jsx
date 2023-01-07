@@ -17,6 +17,9 @@ const Register = () => {
         password: '',
         role: 'seller'
     })
+    // if(roles === 'seller'){
+    //    registerSeller.role = 'seller'
+    // }
     
     const handleChangeSeller = (e) => {
         setRegisterSeller({
@@ -31,6 +34,10 @@ const Register = () => {
         password: '',
         role: 'customer'
     })
+    // if(roles === 'customer'){
+    //     registerSeller.role = 'customer'
+    //  }
+     
 
     const handleChange = (e) => {
         setRegister({
@@ -105,7 +112,6 @@ const Register = () => {
                         <input type="text" name='name' value={register.name} onChange={handleChange} placeholder='Name . . .' className='border border-gray-400 text-gray-500 mx-auto outline-none w-full rounded-md py-3 px-5 mb-5 font-semibold' />
                         <input type="email" name='email' value={register.email} onChange={handleChange} placeholder='Email . . .' className='border border-gray-400 text-gray-500 mx-auto outline-none w-full rounded-md py-3 px-5 mb-5 font-semibold' />
                         <input type="password" name='password' value={register.password} onChange={handleChange} placeholder='Password . . .' className='border border-gray-400 text-gray-500 mx-auto outline-none w-full rounded-md py-3 px-5 mb-5 font-semibold' />
-                        {/* <input type="text" name='role' value={register.role} onChange={setRegister.role('customer')} hidden /> */}
                         <Link to={'/'}>
                             <p className='text-[#DB3022] font-semibold text-end'>Forgot Password</p>
                         </Link>

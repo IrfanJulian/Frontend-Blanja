@@ -1,17 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import logo from '../../assets/logo-blanja.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell, faCartShopping, faEnvelope, faFilter, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate } from 'react-router-dom'
 import user from '../../assets/user (1).png'
 import Swal from 'sweetalert2'
+import axios from 'axios'
 
 const Navbar = () => {
     
     const token = localStorage.getItem('token')
+    const id = localStorage.getItem('id')
     const photo = localStorage.getItem('photo')
     const role = localStorage.getItem('role')
-    // console.log(role);
     const navigate = useNavigate()
     // const [data, setData] = useState(true)
     const [active, setActive] = useState(false)
@@ -35,7 +36,19 @@ const Navbar = () => {
           })
         navigate('/login')
     }
-    // console.log(active);
+
+    const [userData, setUserData] = useState()
+
+    useEffect(()=>{
+        const getUser = async() => {
+            const res = await axios({
+                method: 'GET',
+                url: `http://localhost:4500/user/:${id}`
+            })
+            setUserData(res.data.data[0])
+        }
+        getUser()
+    })
 
   return (
     <div>
@@ -81,17 +94,21 @@ const Navbar = () => {
                     <Link to={'/'} className='text-xl ml-20 text-gray-400'><FontAwesomeIcon icon={faBell} /></Link>
                     <Link to={'/'} className='text-xl ml-20 text-gray-400'><FontAwesomeIcon icon={faEnvelope} /></Link>
                     <div>
-                    {!photo === undefined ?
-                    <Link onClick={()=>setActive(true)}>
-                        <div className='ml-20 overflow-hidden w-[2.5rem] h-[2.5rem] rounded-full border'>
-                            <img src={user} alt="icon" className='h-[4rem] w-[2.5rem]' />
-                        </div>
-                    </Link> :
-                    <Link onClick={()=>setActive(true)}>
-                        <div className='ml-20 overflow-hidden w-[2rem] h-[2rem] rounded-full border'>
-                            <img src={photo} alt="icon" className='h-[2rem] w-[2rem]' />
-                        </div>
-                    </Link>
+                    {!userData ?
+                    <div>
+                        <Link onClick={()=>setActive(true)}>
+                            <div className='ml-20 overflow-hidden w-[2rem] h-[2rem] rounded-full border'>
+                                <img src={photo} alt="icon" className='h-[2rem] w-[2rem]' />
+                            </div>
+                        </Link>
+                    </div> :
+                    <div>
+                        <Link onClick={()=>setActive(true)}>
+                            <div className='ml-20 overflow-hidden w-[2.5rem] h-[2.5rem] rounded-full border'>
+                                <img src={user} alt="icon" className='h-[2.5rem] w-[2.5rem]' />
+                            </div>
+                        </Link>
+                    </div>
                     }
                         { active === true ?
                         <div className="absolute left-72 border-2 border-gray-300 rounded-xl mt-3 wrapper bg-white pb-7">

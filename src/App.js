@@ -19,7 +19,7 @@ function App() {
           <Route path='/login' element={<Login/>} />
           <Route path='/register' element={<Register/>} />
           <Route path='/my-bag' element={<Mybag/>} />
-          <Route path='/product-detail' element={<ProductDetail/>} />
+          <Route path='/product-detail/:id' element={<ProductDetail/>} />
           <Route path='/checkout' element={<Checkout/>} />
           <Route path='/profile-customer' element={<ProfileCustomer/>} />
           <Route path='/profile-seller' element={<ProfileSeller/>} />
