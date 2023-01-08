@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from 'react'
 // import { Link } from 'react-router-dom'
 import Navbar from '../../components/base/navbar'
-import MyModal from '../../components/base/modal-payment'
+// import MyModal from '../../components/base/modal-payment'
 import axios from 'axios'
 // import Address from '../../components/base/address'
 import Swal from 'sweetalert2'
@@ -12,6 +12,7 @@ const Checkout = () => {
     const idUser = localStorage.getItem('id')
     const [data, setData] = useState()
     const [allData, setAllData] = useState()
+    // const [idPro, setIdPro] = useState(0)
     const [total, setTotal] = useState(0)
 
     useEffect(()=>{
@@ -23,13 +24,20 @@ const Checkout = () => {
                     authorization: `$Bearer ${token}`
                 }
             })
+            localStorage.setItem('idProduct', res.data.data[0].id)
             setData(res.data.data[0])
             setAllData(res.data.data)
         }
         getDataBag()
     }, [idUser, token]);
-    console.log(data);
-    
+
+    const numberProduct = localStorage.getItem('idProduct');
+    const [checkout] = useState({
+        id_transaction: numberProduct,
+        status: 'Waiting'
+    })
+    // console.log(idPro);
+
     useEffect(() => {
         if (allData) {
             let total = 0
@@ -40,28 +48,54 @@ const Checkout = () => {
         }
     }, [allData])
 
-    const postCheckout = async() => {
-        try {
-            await axios({
+    const postCheckout = () => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Checkout now",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+          }).then(async(result) => {
+                if (result.isConfirmed) {
+                await axios({
                 method: 'POST',
                 url: `http://localhost:4500/checkout`,
+                data: checkout,
                 headers: {
                     authorization: `Bearer ${token}`
                 }
             })
-            Swal.fire({
-                icon: 'success',
-                title: 'Checkout success waiting for process',
-                text: 'We need to check your payment'
-              })
-        } catch (error) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Something wrong!'
-              })
-        }
+              Swal.fire(
+                'Checkout Sucess',
+                'Check your bag',
+                'success'
+              )
+            }
+          })
     }
+    // try {
+    //     await axios({
+    //         method: 'POST',
+    //         url: `http://localhost:4500/checkout`,
+    //         data: checkout,
+    //         headers: {
+    //             authorization: `Bearer ${token}`
+    //         }
+    //     })
+    //     Swal.fire({
+    //         icon: 'success',
+    //         title: 'Checkout success waiting for process',
+    //         text: 'We need to check your payment'
+    //       })
+    // } catch (error) {
+    //     Swal.fire({
+    //         icon: 'error',
+    //         title: 'Oops...',
+    //         text: 'Something wrong!'
+    //       })
+    // }
 
   return (
     <div>
@@ -109,8 +143,14 @@ const Checkout = () => {
                             <p className='text-2xl font-semibold text-black'>Shopping Summary</p>
                             <p className='text-2xl font-semibold text-[#DB3022] ml-auto'>$ {total + 3}</p>
                         </div>
-                        {/* <button className='text-white bg-[#DB3022] rounded-full py-4 mt-10 text-xl w-full' type="button" data-modal-toggle="defaultModal">Buy</button> */}
-                        <MyModal onclick={postCheckout} />
+                        <button
+                            type="button"
+                            onClick={postCheckout}
+                            className="rounded-full mt-10 bg-red-600 py-3 w-full px-4 text-xl font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                            >
+                            Buy Now
+                        </button>
+                        {/* <MyModal onclick={postCheckout} /> */}
                     </div>
                 </div>
             </div>
