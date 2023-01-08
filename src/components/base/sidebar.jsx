@@ -11,6 +11,7 @@ import axios from 'axios'
 const Sidebar = ({ on1, on2, on3 }) => {
 
     const id = localStorage.getItem('id')
+    const token = localStorage.getItem('token')
     const [showSide, setShowSide] = useState(false)
     const [data, setData] = useState()
 
@@ -18,12 +19,15 @@ const Sidebar = ({ on1, on2, on3 }) => {
         const getData = async () => {
             const res = await axios({
                 method: 'GET',
-                url: `http://localhost:4500/user/${id}`
+                url: `http://localhost:4500/user/${id}`,
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
             })
             setData(res.data.data[0])
         }
         getData()
-    }, [id])
+    }, [id, token])
 
     const show = () => {
         setShowSide(true)

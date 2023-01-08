@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import x from '../../assets/x.png'
 import CheckBox from './check-box'
 
-export default function MyModalAddress() {
+export default function MyModalEditAddress() {
   let [isOpen, setIsOpen] = useState(false)
 
   function closeModal() {

@@ -8,29 +8,36 @@ import axios from 'axios'
 
 const Mybag = () => {
 
-    const id = localStorage.getItem('id')
+    const token = localStorage.getItem('token')
+    const idUser = localStorage.getItem('id')
     const navigate = useNavigate()
     const [data, setData] = useState()
+    const [total, setTotal] = useState(0)
 
     useEffect(()=>{
         const getDataBag = async () => {
             const res = await axios({
                 method: 'GET',
-                url: `http://localhost:4500/transactions/myBag/${id}`
+                url: `http://localhost:4500/transactions/myBag/${idUser}`,
+                headers: {
+                    authorization: `$Bearer ${token}`
+                }
             })
             setData(res.data.data)
         }
         getDataBag()
-    }, [id]);
+    }, [idUser, token]);
 
-    // const [total, setTotal] = useState()
-
-    // if(data){
-    //     const final = data.map((order) => order.price).reduce((prev, curr) => prev + curr, 0); 
-    //     setTotal(data.map((order) => order.price).reduce((prev, curr) => prev + curr, 0))
-    // }
-    // console.log(total);
-
+    useEffect(()=>{
+        let total = 0
+        if(data){
+            data.forEach((bag)=>{
+                total += bag.total_price
+            })
+            setTotal(total)
+        }
+    }, [data])
+    // console.log(data);
 
   return (
     <div>
@@ -39,6 +46,7 @@ const Mybag = () => {
         </div>
         <div className="container mx-auto my-10">
             <p className='text-4xl font-bold text-start'>My bag</p>
+            { data ? 
             <div className="flex">
                 <div className="wrapper w-7/12">
                     <div className="flex wrapper px-5 py-5 my-10 border-4 rounded-xl shadow-lg shadow-gray-200">
@@ -47,7 +55,7 @@ const Mybag = () => {
                         <p className='ml-3 text-lg text-gray-400'>( 3 Items Selected )</p>
                         <Link className='ml-auto'><p className='text-red-500 font-semibold text-lg'>Delete</p></Link>
                     </div>
-                    { data ? data.map((bag)=>
+                    {data ? data.map((bag)=>
                     <div key={bag.id} className="flex wrapper px-5 py-7 mb-5 border-4 rounded-xl shadow-lg shadow-gray-200">
                         <CheckBox className='mt-6 mr-5' />
                         <img src={bag.photo} alt='jkt' className='ml-2 text-lg text-gray-400 w-[4.5rem] h-[4.5rem] rounded-lg border-2' />
@@ -63,8 +71,8 @@ const Mybag = () => {
                         <div className="price grid">
                             <p className='text-xl font-semibold text-black my-auto mx-5'>$ {bag.total_price}</p>
                         </div>
-                    </div>
-                    ): null }
+                    </div> 
+                    ) : null }
                 </div>
                 <div className="wrapper w-1/12"></div>
                 <div className="wrapper w-4/12">
@@ -72,12 +80,13 @@ const Mybag = () => {
                         <p className='text-2xl font-semibold text-black text-start'>Shopping Summary</p>
                         <div className="flex mt-10">
                             <p className='text-2xl text-gray-400'>Total Price</p>
-                            <p className='text-2xl font-semibold text-black ml-auto'>$ 186</p>
+                            <p className='text-2xl font-semibold text-black ml-auto'>$ {total}</p>
                         </div>
-                        <button onClick={()=>navigate('/checkout')} className='text-white bg-[#DB3022] rounded-full py-4 mt-10 text-xl w-full'>Buy</button>
+                        <button onClick={()=>navigate(`/checkout/1`)} className='text-white bg-[#DB3022] rounded-full py-4 mt-10 text-xl w-full'>Buy</button>
                     </div>
                 </div>
             </div>
+            : null }
         </div>
     </div>
   )

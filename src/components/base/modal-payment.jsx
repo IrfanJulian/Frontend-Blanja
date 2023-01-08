@@ -7,7 +7,7 @@ import pos from '../../assets/pos.png'
 import mastercard from '../../assets/mastercard.png'
 import CheckBox from './check-box'
 
-export default function MyModal() {
+export default function MyModal({ onClick }) {
   let [isOpen, setIsOpen] = useState(false)
 
   function closeModal() {
@@ -105,7 +105,7 @@ export default function MyModal() {
                         <button
                         type="button"
                         className="inline-flex justify-center rounded-full bg-red-600 py-3 w-full border border-transparent px-16 text-sm font-medium text-white hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                        onClick={closeModal}
+                        onClick={onClick}
                         >Buy
                         </button>
                     </div>

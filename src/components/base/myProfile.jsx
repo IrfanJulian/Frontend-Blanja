@@ -8,17 +8,21 @@ import Swal from 'sweetalert2'
 const MyProfile = () => {
 
     const id = localStorage.getItem('id')
+    const token = localStorage.getItem('token')
     const [data, setData] = useState()
     useEffect(()=>{
         const getData = async () => {
             const res = await axios({
                 method: 'GET',
-                url: `http://localhost:4500/user/${id}`
+                url: `http://localhost:4500/user/${id}`,
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
             })
             setData(res.data.data[0])
         }
         getData()
-    }, [id])
+    }, [id, token])
 
     const [dataCustomer, setDataCustomer] = useState({
         name: '',

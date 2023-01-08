@@ -6,6 +6,7 @@ import add from '../../assets/add image.png'
 const AddProduct = () => {
 
     const id_seller = localStorage.getItem('id')
+    const token = localStorage.getItem('token')
     const [post, setPost] = useState({
         name: '',
         price: '',
@@ -45,7 +46,10 @@ const AddProduct = () => {
             await axios({
                 method: 'POST',
                 url: 'http://localhost:4500/products',
-                data: formData
+                data: formData,
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
             })
             Swal.fire({
                 icon: 'success',

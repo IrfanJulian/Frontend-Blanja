@@ -12,6 +12,7 @@ import Swal from 'sweetalert2'
 const ProductDetail = () => {
 
     const id_customer = localStorage.getItem('id')
+    const token = localStorage.getItem('token')
     const [data, setData] = useState()
     const {id} = useParams()
     const [qty, setQty] = useState(1)
@@ -47,7 +48,14 @@ const ProductDetail = () => {
 
     const addBag = async () => {
         try {
-            await axios.post(`http://localhost:4500/transactions`, add)
+            await axios({
+                method: 'POST',
+                url: `http://localhost:4500/transactions`,
+                data: add,
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
+            })
             Swal.fire({
                 icon: 'success',
                 title: 'Success...',

@@ -25,12 +25,26 @@ const Home = () => {
         }
         getData()
     }, [])
-    console.log(data);
+    // console.log(data);
+
+    const [search, setSearch] = useState()
+    const [keyword, setKeyword] = useState('')
+    const handleChange = (e) => {
+        setKeyword(e.target.value)
+    }
+
+    const handleSearch = async() => {
+        const res = await axios({
+            method: 'GET',
+            url: `http://localhost:4500/products?search=${keyword}`
+        })
+        setSearch(res.data.data)
+    }
 
   return (
     <div>
         <div className="shadow-xl shadow-gray-200">
-            <Navbar />     
+            <Navbar onSubmit={handleSearch} value={search} onChange={handleChange} name='search' type='submit' />     
         </div>
         <div className="container mx-auto my-20 rounded-3xl w-1/2">
             <Carousel />
@@ -45,11 +59,14 @@ const Home = () => {
                 <p className='text-4xl font-bold text-black text-start'>Products</p>
                 <p className='text-lg text-start my-5 text-gray-400'>You've never seen it before</p>
                 <div className='grid grid-cols-5 gap-12'>
-                { data ? data.map((product)=>
+                { search ? search.map((product)=>
                     <Link to={`/product-detail/${product.id}`} key={product.id}>
                         <ProductList key={product.id} name={product.name} price={product.price} brand={product.brand} photo={product.photo} />
                     </Link>
-                ) : null }
+                ) : data.map((product)=>
+                <Link to={`/product-detail/${product.id}`} key={product.id}>
+                    <ProductList key={product.id} name={product.name} price={product.price} brand={product.brand} photo={product.photo} />
+                </Link> )}
                 </div>
             </div>
         : null }

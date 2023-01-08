@@ -7,7 +7,7 @@ import user from '../../assets/user (1).png'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 
-const Navbar = () => {
+const Navbar = ({ onSubmit, value, onChange, name, type }) => {
     
     const token = localStorage.getItem('token')
     const id = localStorage.getItem('id')
@@ -16,16 +16,16 @@ const Navbar = () => {
     const navigate = useNavigate()
     // const [data, setData] = useState(true)
     const [active, setActive] = useState(false)
-    const [search, setSearch] = useState('')
+    // const [search, setSearch] = useState('')
+// 
+    // const handleChange = (e) => {
+    //     setSearch(e.target.value)
+    //     console.log(setSearch);
+    // }
 
-    const handleChange = (e) => {
-        setSearch(e.target.value)
-        console.log(setSearch);
-    }
-
-    const handleSearch = (e) => {
-        e.preventDefault()
-    }
+    // const handleSearch = (e) => {
+    //     e.preventDefault()
+    // }
 
     const handleLogout = () => {
         localStorage.clear()
@@ -43,7 +43,8 @@ const Navbar = () => {
         const getUser = async() => {
             const res = await axios({
                 method: 'GET',
-                url: `http://localhost:4500/user/:${id}`
+                url: `http://localhost:4500/user/:${id}`,
+                headers: {authorization: `Bearer ${token}`}
             })
             setUserData(res.data.data[0])
         }
@@ -60,9 +61,9 @@ const Navbar = () => {
                 </Link>
             </div>
             <div className="wrapper w-5/12">
-                <form onSubmit={''}>
-                    <input type="text" name='search' value={search} placeholder='Search . . .' className='text-lg border-l border-t border-b border-gray-400 rounded-l-full py-3 px-5 outline-none font-semibold w-9/12' />
-                    <button className='text-gray-400 border-t border-b border-r border-gray-400 rounded-r-full py-3 px-5 text-lg'><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+                <form onSubmit={onSubmit}>
+                    <input type="text" name={name} onChange={onchange} value={value} placeholder='Search . . .' className='text-lg border-l border-t border-b border-gray-400 rounded-l-full py-3 px-5 outline-none font-semibold w-9/12' />
+                    <button type={type} className='text-gray-400 border-t border-b border-r border-gray-400 rounded-r-full py-3 px-5 text-lg'><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
                     <button className='text-gray-400 px-4 py-3 border border-gray-400 rounded-xl ml-5 text-lg'><FontAwesomeIcon icon={faFilter} /></button>
                 </form>
             </div>
@@ -82,9 +83,9 @@ const Navbar = () => {
                 </Link>
             </div>
             <div className="wrapper w-6/12">
-                <form onSubmit={handleSearch}>
-                    <input type="text" onChange={handleChange} placeholder='Search . . .' className='text-lg border-l border-t border-b border-gray-400 rounded-l-full py-3 px-5 outline-none font-semibold w-9/12' />
-                    <button className='text-gray-400 border-t border-b border-r border-gray-400 rounded-r-full py-3 px-5 text-lg'><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+                <form onSubmit={onSubmit}>
+                    <input type="text" name={name} onChange={onchange} value={value} placeholder='Search . . .' className='text-lg border-l border-t border-b border-gray-400 rounded-l-full py-3 px-5 outline-none font-semibold w-9/12' />
+                    <button type={type} className='text-gray-400 border-t border-b border-r border-gray-400 rounded-r-full py-3 px-5 text-lg'><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
                     <button className='text-gray-400 px-4 py-3 border border-gray-400 rounded-xl ml-5 text-lg'><FontAwesomeIcon icon={faFilter} /></button>
                 </form>
             </div>
