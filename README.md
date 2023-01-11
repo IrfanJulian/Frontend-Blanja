@@ -55,4 +55,4 @@ To fix a bug or enhance an existing module, follow these steps:
 - [Tailwind CSS](https://tailwindcss.com/) - Rapidly build modern websites without ever leaving your HTML.
 
 ## Created
-MIT © [Irfan Julian](https://github.com/IrfanJulian)
+© [Irfan Julian](https://github.com/IrfanJulian)
