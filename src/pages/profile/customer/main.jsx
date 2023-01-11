@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import Address from '../../../components/base/address'
+import Address from '../../../components/base/addAddress'
 import MyOrder from '../../../components/base/myOrder'
 import MyProfile from '../../../components/base/myProfile'
 import Navbar from '../../../components/base/navbar'

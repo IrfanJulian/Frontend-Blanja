@@ -4,7 +4,7 @@ import icon from '../../assets/c230c71abf535e523ea4f28a4b0aa060.jpg'
 import store from '../../assets/store.png'
 import product from '../../assets/product.png'
 import selling from '../../assets/sell.png'
-import order from '../../assets/order.png'
+import order from '../../assets/order white.png'
 import hamIcon from '../../assets/menu icon red1.png'
 import iconclose from '../../assets/close icon red.png'
 import axios from 'axios'
@@ -66,25 +66,25 @@ const SidebarSeller = ({ on1, on2, on3, on4 }) => {
                 </div>
             </div>
             <div className="wrapper -mt-80 mr-16">
-                <Link onClick={on1} className="flex ml-32">
+                <Link onClick={()=>{on1(); close()}} className="flex ml-32">
                     <div className="wrapper grid w-[3rem] h-[3rem] bg-[#456BF3] top-25 rounded-full mr-5">
                     <img src={store} alt="" className='my-auto mx-auto' />
                     </div>
                     <p className='text-xl font-semibold my-auto'>Store</p>
                 </Link>
-                <Link onClick={on2} className="flex mt-5 ml-32">
+                <Link onClick={()=>{on2(); close()}} className="flex mt-5 ml-32">
                     <div className="wrapper grid w-[3rem] h-[3rem] bg-[#F36F45] top-25 rounded-full mr-5">
                     <img src={product} alt="" className='my-auto mx-auto' />
                     </div>
-                    <p className='text-xl font-semibold my-auto'>Product</p>
+                    <p className='text-xl font-semibold my-auto'>My product</p>
                 </Link>
-                <Link onClick={on3} className="flex mt-5 ml-32">
+                <Link onClick={()=>{on3(); close()}} className="flex mt-5 ml-32">
                     <div className="wrapper grid w-[3rem] h-[3rem] bg-[#B5D850] top-25 rounded-full mr-5">
                     <img src={selling} alt="" className='my-auto mx-auto' />
                     </div>
                     <p className='text-xl font-semibold my-auto'>Selling product</p>
                 </Link>
-                <Link onClick={on4} className="flex mt-5 ml-32">
+                <Link onClick={()=>{on4(); close()}} className="flex mt-5 ml-32">
                     <div className="wrapper grid w-[3rem] h-[3rem] bg-[#F3456F] top-25 rounded-full mr-5">
                     <img src={order} alt="" className='my-auto mx-auto' />
                     </div>

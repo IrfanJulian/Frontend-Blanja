@@ -51,7 +51,10 @@ const MyProfile = () => {
             await axios({
                 method: 'PUT',
                 url: `http://localhost:4500/user/${id}`,
-                data: formData
+                data: formData,
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
             })
             Swal.fire({
                 icon: 'success',

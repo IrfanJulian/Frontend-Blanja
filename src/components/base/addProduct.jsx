@@ -56,7 +56,7 @@ const AddProduct = () => {
                 title: 'Success...',
                 text: 'Add product Success'
               })
-            //   window.location.reload()
+              window.location.reload()
         } catch (error) {
             Swal.fire({
                 icon: 'error',

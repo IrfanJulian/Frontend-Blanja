@@ -21,8 +21,8 @@ export default function MyModalEditAddress() {
         <button
           type="button"
           onClick={openModal}
-          className="rounded-xl py-16 w-3/4 border-4 border-dashed border-gray-300 text-3xl text-gray-300 font-semibold"
-        >Add new address
+          className="rounded-xl py-5 w-3/4 border-4 border-dashed border-gray-300 text-2xl text-gray-300 font-semibold"
+        >Tap here to add address
         </button>
       </div>
 

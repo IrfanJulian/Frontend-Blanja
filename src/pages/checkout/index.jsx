@@ -10,43 +10,49 @@ const Checkout = () => {
 
     const token = localStorage.getItem('token')
     const idUser = localStorage.getItem('id')
+    const id_seller = localStorage.getItem('id_seller')
+    const id_product = localStorage.getItem('id_product')
+    const id_transaction = localStorage.getItem('id_transaction')
     const [data, setData] = useState()
-    const [allData, setAllData] = useState()
+    // const [allData, setAllData] = useState()
     // const [idPro, setIdPro] = useState(0)
-    const [total, setTotal] = useState(0)
+    // const [total, setTotal] = useState(0)
 
     useEffect(()=>{
         const getDataBag = async () => {
             const res = await axios({
                 method: 'GET',
-                url: `http://localhost:4500/transactions/checkout/${idUser}`,
+                url: `http://localhost:4500/checkout/${idUser}`,
                 headers: {
                     authorization: `$Bearer ${token}`
                 }
             })
-            localStorage.setItem('idProduct', res.data.data[0].id)
+            // setIdPro('idProduct', res.data.data[0].id)
             setData(res.data.data[0])
-            setAllData(res.data.data)
+            
         }
         getDataBag()
     }, [idUser, token]);
 
-    const numberProduct = localStorage.getItem('idProduct');
+    // const numberProduct = localStorage.getItem('idProduct');
     const [checkout] = useState({
-        id_transaction: numberProduct,
+        id_seller: id_seller,
+        id_user: idUser,
+        id_transaction: id_transaction,
+        id_product: id_product,
         status: 'Waiting'
     })
     // console.log(idPro);
 
-    useEffect(() => {
-        if (allData) {
-            let total = 0
-            allData.forEach(item => {
-                total = total + item.price
-            })
-            setTotal(total)
-        }
-    }, [allData])
+    // useEffect(() => {
+    //     if (allData) {
+    //         let total = 0
+    //         allData.forEach(item => {
+    //             total = total + item.price
+    //         })
+    //         setTotal(total)
+    //     }
+    // }, [allData])
 
     const postCheckout = () => {
         Swal.fire({
@@ -65,8 +71,12 @@ const Checkout = () => {
                 data: checkout,
                 headers: {
                     authorization: `Bearer ${token}`
-                }
+                },
             })
+            localStorage.removeItem('id_product')
+            localStorage.removeItem('id_transaction')
+            localStorage.removeItem('id_seller')
+            localStorage.removeItem('id_product')
               Swal.fire(
                 'Checkout Sucess',
                 'Check your bag',
@@ -75,27 +85,9 @@ const Checkout = () => {
             }
           })
     }
-    // try {
-    //     await axios({
-    //         method: 'POST',
-    //         url: `http://localhost:4500/checkout`,
-    //         data: checkout,
-    //         headers: {
-    //             authorization: `Bearer ${token}`
-    //         }
-    //     })
-    //     Swal.fire({
-    //         icon: 'success',
-    //         title: 'Checkout success waiting for process',
-    //         text: 'We need to check your payment'
-    //       })
-    // } catch (error) {
-    //     Swal.fire({
-    //         icon: 'error',
-    //         title: 'Oops...',
-    //         text: 'Something wrong!'
-    //       })
-    // }
+
+    console.log(data);
+    // console.log(allData);
 
   return (
     <div>
@@ -108,23 +100,23 @@ const Checkout = () => {
             <p className='text-xl font-semibold text-start my-10'>Shipping address</p>
             <div className="flex">
                 <div className="wrapper w-7/12">
-                    <div className="grid wrapper px-10 py-10 border-4 rounded-xl shadow-lg shadow-gray-200 mb-5">
-                        <p className='text-xl font-semibold text-start mb-5'>{data.name}</p>
+                    <div className="grid wrapper px-10 py-10 border-4 rounded-xl shadow-lg s-namehadow-gray-200 mb-5">
+                        <p className='text-xl font-semibold text-start mb-5'>{data.recipient_name}</p>
                         <p className='text-md text-gray-400 text-start'>{data.address} - {data.zip} - {data.city}</p>
                         {/* <Address /> */}
                     </div>
-                    {allData.map((item)=>
-                    <div key={item.id} className="flex wrapper px-5 py-10 mb-5 border-4 rounded-xl shadow-lg shadow-gray-200">
-                        <img src={item.product_photo} alt='jkt' className='ml-2 text-lg text-gray-400 w-[4.5rem] h-[4.5rem] rounded-lg border-2' />
+                    {/* {data.map((item)=> */}
+                    <div key={data.id} className="flex wrapper px-5 py-10 mb-5 border-4 rounded-xl shadow-lg shadow-gray-200">
+                        <img src={data.photo} alt='jkt' className='ml-2 text-lg text-gray-400 w-[4.5rem] h-[4.5rem] rounded-lg border-2' />
                         <div className="wrapper my-auto ml-7">
-                            <p className='text-xl font-semibold text-start'>{item.product_name}</p>
-                            <p className='text-md text-gray-400 text-start'>{item.brand}</p>
+                            <p className='text-xl font-semibold text-start'>{data.name}</p>
+                            <p className='text-md text-gray-400 text-start'>{data.brand}</p>
                         </div>
                         <div className="price grid ml-auto">
-                            <p className='text-xl font-semibold text-black my-auto mr-10'>$ {item.price}</p>
+                            <p className='text-xl font-semibold text-black my-auto mr-10'>$ {data.price}</p>
                         </div>
                     </div>
-                    )}
+                    {/* )} */}
                 </div>
                 <div className="wrapper w-1/12"></div>
                 <div className="wrapper w-4/12">
@@ -132,7 +124,7 @@ const Checkout = () => {
                         <p className='text-2xl font-semibold text-black text-start'>Shopping Summary</p>
                         <div className="flex mt-10">
                             <p className='text-2xl text-gray-400'>Order</p>
-                            <p className='text-2xl font-semibold text-black ml-auto'>$ {total}</p>
+                            <p className='text-2xl font-semibold text-black ml-auto'>$ {data.price}</p>
                         </div>
                         <div className="flex mt-5 mb-10">
                             <p className='text-2xl text-gray-400'>Delivery</p>
@@ -141,7 +133,7 @@ const Checkout = () => {
                         <hr className='my-10' />
                         <div className="flex mt-10">
                             <p className='text-2xl font-semibold text-black'>Shopping Summary</p>
-                            <p className='text-2xl font-semibold text-[#DB3022] ml-auto'>$ {total + 3}</p>
+                            <p className='text-2xl font-semibold text-[#DB3022] ml-auto'>$ {data.price + 3}</p>
                         </div>
                         <button
                             type="button"

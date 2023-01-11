@@ -9,7 +9,8 @@ const MyProfile = () => {
 
     const id = localStorage.getItem('id')
     const token = localStorage.getItem('token')
-    const [data, setData] = useState()
+    // const [data, setData] = useState()
+    const [picture, setPicture] = useState(null)
     useEffect(()=>{
         const getData = async () => {
             const res = await axios({
@@ -19,10 +20,12 @@ const MyProfile = () => {
                     authorization: `Bearer ${token}`
                 }
             })
-            setData(res.data.data[0])
+            // setData(res.data.data[0])
+            setPicture(res.data.data[0].photo)
         }
         getData()
     }, [id, token])
+    // console.log(picture);
 
     const [dataCustomer, setDataCustomer] = useState({
         name: '',
@@ -44,7 +47,10 @@ const MyProfile = () => {
             await axios({
                 method: 'PUT',
                 url: `http://localhost:4500/user/${id}`,
-                data: formData
+                data: formData,
+                headers: {
+                    authorization: `Bearer ${token}`
+                }
             })
             Swal.fire({
                 icon: 'success',
@@ -53,7 +59,11 @@ const MyProfile = () => {
               })
             window.location.reload()
         } catch (error) {
-            console.log(error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed...',
+                text: 'Update data Failed'
+              })
         }
     }
 
@@ -105,13 +115,13 @@ const MyProfile = () => {
                 </div>
                 <div className="w-1/12"><img src={line} alt="" className='mx-auto h-3/4' /></div>
                 <div className="w-3/12">
-                    { data ?
+                    { picture === 'null' ?
                     <div className="wrapperimg w-[10rem] h-[10rem] overflow-hidden rounded-full mx-auto">
-                        <img src={data.photo} alt="" className='w-[10rem] h-[10rem]' />
+                        <img src={icon} alt="" className='w-[10rem] h-[10rem]' />
                     </div>
                     : 
                     <div className="wrapperimg w-[10rem] h-[10rem] overflow-hidden rounded-full mx-auto">
-                        <img src={icon} alt="" className='w-[10rem] h-[10rem]' />
+                        <img src={picture} alt="" className='w-[10rem] h-[10rem]' />
                     </div>
                     }
                     <div className="file pt-10">

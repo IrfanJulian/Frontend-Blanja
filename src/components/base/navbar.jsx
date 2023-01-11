@@ -11,20 +11,15 @@ const Navbar = ({ onSubmit, value, onChange, name, type }) => {
     
     const token = localStorage.getItem('token')
     const id = localStorage.getItem('id')
-    const photo = localStorage.getItem('photo')
+    // const photo = localStorage.getItem('photo')
     const role = localStorage.getItem('role')
     const navigate = useNavigate()
     // const [data, setData] = useState(true)
     const [active, setActive] = useState(false)
-    // const [search, setSearch] = useState('')
+    // const [keyword, setKeyword] = useState('')
 // 
     // const handleChange = (e) => {
-    //     setSearch(e.target.value)
-    //     console.log(setSearch);
-    // }
-
-    // const handleSearch = (e) => {
-    //     e.preventDefault()
+    //     setKeyword(e.target.value)
     // }
 
     const handleLogout = () => {
@@ -37,19 +32,24 @@ const Navbar = ({ onSubmit, value, onChange, name, type }) => {
         navigate('/login')
     }
 
-    const [userData, setUserData] = useState()
+    const [picture, setPicture] = useState(null)
 
     useEffect(()=>{
         const getUser = async() => {
             const res = await axios({
                 method: 'GET',
-                url: `http://localhost:4500/user/:${id}`,
-                headers: {authorization: `Bearer ${token}`}
+                url: `http://localhost:4500/user/${id}`
             })
-            setUserData(res.data.data[0])
+            setPicture(res.data.data[0].photo)
         }
         getUser()
-    })
+    }, [id, picture])
+    // console.log(picture);
+
+    // const clickSearch = (e) => {
+    //     // e.preventDefault()
+    //     navigate(`/search/${keyword}`)
+    // }
 
   return (
     <div>
@@ -62,7 +62,7 @@ const Navbar = ({ onSubmit, value, onChange, name, type }) => {
             </div>
             <div className="wrapper w-5/12">
                 <form onSubmit={onSubmit}>
-                    <input type="text" name={name} onChange={onchange} value={value} placeholder='Search . . .' className='text-lg border-l border-t border-b border-gray-400 rounded-l-full py-3 px-5 outline-none font-semibold w-9/12' />
+                    <input type="text" name={name} onChange={onChange} value={value} placeholder='Search . . .' className='text-lg border-l border-t border-b border-gray-400 rounded-l-full py-3 px-5 outline-none font-semibold w-9/12' />
                     <button type={type} className='text-gray-400 border-t border-b border-r border-gray-400 rounded-r-full py-3 px-5 text-lg'><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
                     <button className='text-gray-400 px-4 py-3 border border-gray-400 rounded-xl ml-5 text-lg'><FontAwesomeIcon icon={faFilter} /></button>
                 </form>
@@ -84,8 +84,8 @@ const Navbar = ({ onSubmit, value, onChange, name, type }) => {
             </div>
             <div className="wrapper w-6/12">
                 <form onSubmit={onSubmit}>
-                    <input type="text" name={name} onChange={onchange} value={value} placeholder='Search . . .' className='text-lg border-l border-t border-b border-gray-400 rounded-l-full py-3 px-5 outline-none font-semibold w-9/12' />
-                    <button type={type} className='text-gray-400 border-t border-b border-r border-gray-400 rounded-r-full py-3 px-5 text-lg'><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+                    <input type="text" name={name} onChange={onChange} value={value} placeholder='Search . . .' className='text-lg border-l border-t border-b border-gray-400 rounded-l-full py-3 px-5 outline-none font-semibold w-9/12' />
+                    <button type={type} onClick={onSubmit} className='text-gray-400 border-t border-b border-r border-gray-400 rounded-r-full py-3 px-5 text-lg'><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
                     <button className='text-gray-400 px-4 py-3 border border-gray-400 rounded-xl ml-5 text-lg'><FontAwesomeIcon icon={faFilter} /></button>
                 </form>
             </div>
@@ -95,18 +95,18 @@ const Navbar = ({ onSubmit, value, onChange, name, type }) => {
                     <Link to={'/'} className='text-xl ml-20 text-gray-400'><FontAwesomeIcon icon={faBell} /></Link>
                     <Link to={'/'} className='text-xl ml-20 text-gray-400'><FontAwesomeIcon icon={faEnvelope} /></Link>
                     <div>
-                    {!userData ?
+                    {picture === 'null' ?
                     <div>
                         <Link onClick={()=>setActive(true)}>
                             <div className='ml-20 overflow-hidden w-[2rem] h-[2rem] rounded-full border'>
-                                <img src={photo} alt="icon" className='h-[2rem] w-[2rem]' />
+                                <img src={user} alt="icon" className='h-[2rem] w-[2rem]' />
                             </div>
                         </Link>
                     </div> :
                     <div>
                         <Link onClick={()=>setActive(true)}>
                             <div className='ml-20 overflow-hidden w-[2.5rem] h-[2.5rem] rounded-full border'>
-                                <img src={user} alt="icon" className='h-[2.5rem] w-[2.5rem]' />
+                                <img src={picture} alt="icon" className='h-[2.5rem] w-[2.5rem]' />
                             </div>
                         </Link>
                     </div>

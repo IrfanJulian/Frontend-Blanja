@@ -61,19 +61,19 @@ const Sidebar = ({ on1, on2, on3 }) => {
                 </div>
             : null}
             <div className="wrapper -mt-80 mr-16">
-                <Link onClick={on1} className="flex ml-32">
+                <Link onClick={()=>{on1(); close()}} className="flex ml-32">
                     <div className="wrapper grid w-[3rem] h-[3rem] bg-[#456BF3] top-25 rounded-full mr-5">
                     <img src={user} alt="" className='my-auto mx-auto' />
                     </div>
                     <p className='text-xl font-semibold my-auto'>My account</p>
                 </Link>
-                <Link onClick={on2} className="flex mt-5 ml-32">
+                <Link onClick={()=>{on2(); close()}} className="flex mt-5 ml-32">
                     <div className="wrapper grid w-[3rem] h-[3rem] bg-[#F36F45] top-25 rounded-full mr-5">
                     <img src={map} alt="" className='my-auto mx-auto' />
                     </div>
                     <p className='text-xl font-semibold my-auto'>Shipping address</p>
                 </Link>
-                <Link onClick={on3} className="flex mt-5 ml-32">
+                <Link onClick={()=>{on3(); close()}} className="flex mt-5 ml-32">
                     <div className="wrapper grid w-[3rem] h-[3rem] bg-[#F3456F] top-25 rounded-full mr-5">
                     <img src={clipboard} alt="" className='my-auto mx-auto' />
                     </div>

@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import AddProduct from '../../../components/base/addProduct'
-import MyProductSeller from '../../../components/base/myProductSeller'
+import MyOrder from '../../../components/base/myOrderSeller'
 import MyProduct from '../../../components/base/myProductSeller'
 import MyProfile from '../../../components/base/myProfileSeller'
 import Navbar from '../../../components/base/navbar'
@@ -29,7 +29,7 @@ const ProfileSeller = () => {
             <AddProduct />
         </div> :
         <div className="wrapper container mx-auto">
-            <MyProductSeller />
+            <MyOrder />
         </div>
         }
     </div>
