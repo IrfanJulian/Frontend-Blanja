@@ -1,6 +1,6 @@
 # ![Blanja](https://res.cloudinary.com/ddpo9zxts/image/upload/v1673453253/Untitled-2_omh8sc.png)
 # Blanja
-Blanja is E-commerce application will make your days easier.
+Blanja is E-commerce application. Get your life easier with Blanja.
 
 
 ## Demo
