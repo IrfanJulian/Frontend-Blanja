@@ -1,70 +1,58 @@
-# Getting Started with Create React App
+# ![Blanja](https://res.cloudinary.com/ddpo9zxts/image/upload/v1673453253/Untitled-2_omh8sc.png)
+# Blanja
+Blanja is E-commerce application will make your days easier.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Demo
+Here is a working live demo :  https://github.com/IrfanJulian/Frontend-Blanja.git
 
-In the project directory, you can run:
+### Landing Page
+![](https://res.cloudinary.com/ddpo9zxts/image/upload/v1673453987/Untitled-1_zbmyff.jpg)
 
-### `npm start`
+### Authentication Register
+![](https://res.cloudinary.com/ddpo9zxts/image/upload/v1673454206/Untitled-2_o1qs8n.jpg)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Authentication Login
+![](https://res.cloudinary.com/ddpo9zxts/image/upload/v1673454327/Untitled-3_rfzr2d.jpg)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Profile Customer
+![](https://res.cloudinary.com/ddpo9zxts/image/upload/v1673454957/Untitled-7_qvunth.jpg)
 
-### `npm test`
+### Profile Seller
+![](https://res.cloudinary.com/ddpo9zxts/image/upload/v1673454539/Untitled-4_z7xv82.jpg)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Managed Order Seller
+![](https://res.cloudinary.com/ddpo9zxts/image/upload/v1673454957/Untitled-6_jhjl0o.jpg)
 
-### `npm run build`
+### Managed Products Seller
+![](https://res.cloudinary.com/ddpo9zxts/image/upload/v1673454958/Untitled-5_xxa0tj.jpg)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Managed Bag and Checkout Customer
+![](https://res.cloudinary.com/ddpo9zxts/image/upload/v1673454957/Untitled-9_fxgvhv.jpg)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Order History
+![](https://res.cloudinary.com/ddpo9zxts/image/upload/v1673454957/Untitled-8_octsn1.jpg)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+## [Usage](https://blanja.github.io/WebApp/) 
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Development
+Want to contribute? Great!
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To fix a bug or enhance an existing module, follow these steps:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Fork the repo
+- Create a new branch (`git checkout -b dev-1`)
+- Make the appropriate changes in the files
+- Add changes to reflect the changes made
+- Commit your changes (`git commit -m 'First Commit'`)
+- Push to the branch (`git push origin dev-1`)
+- Create a Pull Request 
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Built with 
 
-## Learn More
+- [React JS](https://reactjs.org/) - A JavaScript library for building user interfaces.
+- [Tailwind CSS](https://tailwindcss.com/) - Rapidly build modern websites without ever leaving your HTML.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Created
+MIT © [Irfan Julian](https://github.com/IrfanJulian)
