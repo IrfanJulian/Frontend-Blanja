@@ -16,13 +16,12 @@ const ProductDetail = () => {
     const [data, setData] = useState()
     const {id} = useParams()
     const [qty, setQty] = useState(1)
-    // const [size, setSize] = useState()
     
     useEffect(()=> {
         const getData = async() => {
             const res = await axios({
                 method: 'GET',
-                url:`http://localhost:4500/products/${id}`
+                url:`${process.env.REACT_APP_API}/products/${id}`
             })
             setData(res.data.data[0])
         }
@@ -50,7 +49,7 @@ const ProductDetail = () => {
         try {
             await axios({
                 method: 'POST',
-                url: `http://localhost:4500/transactions`,
+                url: `${process.env.REACT_APP_API}/transactions`,
                 data: add,
                 headers: {
                     authorization: `Bearer ${token}`
@@ -65,8 +64,6 @@ const ProductDetail = () => {
             console.log(error);
         }
     }
-
-    // console.log(data);
 
   return (
     <div>

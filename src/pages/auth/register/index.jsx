@@ -17,9 +17,6 @@ const Register = () => {
         password: '',
         role: 'seller'
     })
-    // if(roles === 'seller'){
-    //    registerSeller.role = 'seller'
-    // }
     
     const handleChangeSeller = (e) => {
         setRegisterSeller({
@@ -34,9 +31,6 @@ const Register = () => {
         password: '',
         role: 'customer'
     })
-    // if(roles === 'customer'){
-    //     registerSeller.role = 'customer'
-    //  }
      
 
     const handleChange = (e) => {
@@ -51,14 +45,13 @@ const Register = () => {
         try {
             await axios({
                 method: 'POST',
-                url: 'http://localhost:4500/user/register',
+                url: `${process.env.REACT_APP_API}/user/register`,
                 data: registerSeller
             })
             Swal.fire({
                 icon: 'success',
                 title: 'Success...',
                 text: 'Register Success',
-                // footer: '<a href="">Why do I have this issue?</a>'
               })
             navigate('/login')
         } catch (error) {
@@ -71,14 +64,13 @@ const Register = () => {
         try {
             await axios({
                 method: 'POST',
-                url: 'http://localhost:4500/user/register',
+                url: `${process.env.REACT_APP_API}/user/register`,
                 data: register
             })
             Swal.fire({
                 icon: 'success',
                 title: 'Success...',
                 text: 'Register Success',
-                // footer: '<a href="">Why do I have this issue?</a>'
               })
             navigate('/login')
         } catch (error) {

@@ -1,9 +1,6 @@
 import React, {useState,useEffect} from 'react'
-// import { Link } from 'react-router-dom'
 import Navbar from '../../components/base/navbar'
-// import MyModal from '../../components/base/modal-payment'
 import axios from 'axios'
-// import Address from '../../components/base/address'
 import Swal from 'sweetalert2'
 
 const Checkout = () => {
@@ -14,27 +11,22 @@ const Checkout = () => {
     const id_product = localStorage.getItem('id_product')
     const id_transaction = localStorage.getItem('id_transaction')
     const [data, setData] = useState()
-    // const [allData, setAllData] = useState()
-    // const [idPro, setIdPro] = useState(0)
-    // const [total, setTotal] = useState(0)
 
     useEffect(()=>{
         const getDataBag = async () => {
             const res = await axios({
                 method: 'GET',
-                url: `http://localhost:4500/checkout/${idUser}`,
+                url: `${process.env.REACT_APP_API}/checkout/${idUser}`,
                 headers: {
                     authorization: `$Bearer ${token}`
                 }
             })
-            // setIdPro('idProduct', res.data.data[0].id)
             setData(res.data.data[0])
             
         }
         getDataBag()
     }, [idUser, token]);
 
-    // const numberProduct = localStorage.getItem('idProduct');
     const [checkout] = useState({
         id_seller: id_seller,
         id_user: idUser,
@@ -42,17 +34,6 @@ const Checkout = () => {
         id_product: id_product,
         status: 'Waiting'
     })
-    // console.log(idPro);
-
-    // useEffect(() => {
-    //     if (allData) {
-    //         let total = 0
-    //         allData.forEach(item => {
-    //             total = total + item.price
-    //         })
-    //         setTotal(total)
-    //     }
-    // }, [allData])
 
     const postCheckout = () => {
         Swal.fire({
@@ -67,7 +48,7 @@ const Checkout = () => {
                 if (result.isConfirmed) {
                 await axios({
                 method: 'POST',
-                url: `http://localhost:4500/checkout`,
+                url: `${process.env.REACT_APP_API}/checkout`,
                 data: checkout,
                 headers: {
                     authorization: `Bearer ${token}`
@@ -85,9 +66,6 @@ const Checkout = () => {
             }
           })
     }
-
-    console.log(data);
-    // console.log(allData);
 
   return (
     <div>

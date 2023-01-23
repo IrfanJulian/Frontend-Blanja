@@ -8,7 +8,6 @@ import Sidebar from '../../../components/base/sidebar'
 const ProfileCustomer = () => {
 
   const [page, setPage] = useState(1)
-  // const [role, setRole] = useState('seller')
 
   return (
     <div>

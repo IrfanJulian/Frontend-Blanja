@@ -9,12 +9,10 @@ const Login = () => {
 
     const navigate = useNavigate()
 
-    // const [role, setRole] = useState('')
     const [login, setLogin] = useState({
         email: '',
         password: ''
     })
-    // console.log(role);
 
     const handleChange = (e) => {
         setLogin({
@@ -27,11 +25,10 @@ const Login = () => {
         e.preventDefault() 
             const res = await axios({
                 method: 'POST',
-                url:'http://localhost:4500/user/login',
+                url:`${process.env.REACT_APP_API}/user/login`,
                 data: login
             })
             const dataUser = res.data.data
-            console.log(dataUser);
             localStorage.setItem('id', dataUser.id)
             localStorage.setItem('token', dataUser.token)
             localStorage.setItem('role', dataUser.role)

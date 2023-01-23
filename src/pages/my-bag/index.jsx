@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-// import CheckBox from '../../components/base/check-box'
 import Navbar from '../../components/base/navbar'
 import min from '../../assets/min.png'
 import plus from '../../assets/plus.png'
@@ -20,15 +19,11 @@ const Mybag = () => {
     const idProduct = localStorage.getItem('id_product')
     const token = localStorage.getItem('token')
 
-    // const handlecheck = (e) => {
-    //     setCheck(e.target.checked);
-    // }
-
     useEffect(()=>{
         const getDataBag = async () => {
             const res = await axios({
                 method: 'GET',
-                url: `http://localhost:4500/transactions/myBag/${idUser}`,
+                url: `${process.env.REACT_APP_API}/transactions/myBag/${idUser}`,
                 headers: {
                     authorization: `$Bearer ${token}`
                 }
@@ -40,11 +35,8 @@ const Mybag = () => {
         }
         getDataBag()
     }, [idUser, token]);
-    // console.log(data);
-    // const id_transaction = localStorage.getItem('id_transaction')
+
     const [data, setData] = useState()
-    // const [total, setTotal] = useState(0)
-    // const [check, setCheck] = useState()
     const [active, setActive] = useState(true)
     const [input] = useState({
         id_transaction: idTransaction,
@@ -56,7 +48,6 @@ const Mybag = () => {
 
     console.log(idTransaction);
     console.log(idSeller);
-    // console.log(idProduct);
 
     const postCheckout = async (e) => {
         e.preventDefault()
@@ -72,7 +63,7 @@ const Mybag = () => {
             if (result.isConfirmed) {
                 await axios({
                     method: 'POST',
-                    url: `http://localhost:4500/checkout`,
+                    url: `${process.env.REACT_APP_API}/checkout`,
                     data: input,
                     headers: {
                         authorization: `Bearer ${token}`
@@ -84,21 +75,8 @@ const Mybag = () => {
                 'success'
               )
             }
-            // window.location.reload()
           })  
     }
-
-
-    // useEffect(()=>{
-    //     let total = 0
-    //     if(data){
-    //         data.forEach((bag)=>{
-    //             total += bag.total_price
-    //         })
-    //         setTotal(total)
-    //     }
-    // }, [data])
-
 
     const deleteBag = () => {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
         Swal.fire({
@@ -113,7 +91,7 @@ const Mybag = () => {
             if (result.isConfirmed) {
               await axios({
                     method: 'DELETE',
-                    url: `http://localhost:4500/transactions/${id}`,
+                    url: `${process.env.REACT_APP_API}/transactions/${id}`,
                     headers: {
                         authorization: `Bearer ${token}`
                     }
@@ -131,36 +109,6 @@ const Mybag = () => {
             window.location.reload()
           })
     }
-
-    // const postBag = async(e) =>{
-    //     e.preventDefault()
-    //     Swal.fire({
-    //         title: 'Are you sure?',
-    //         text: "Want to checkout?",
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonColor: '#3085d6',
-    //         cancelButtonColor: '#d33',
-    //         confirmButtonText: 'Yes, i`m sure'
-    //       }).then(async(result) => {
-    //         if (result.isConfirmed) {
-    //             await axios({
-    //                 method: 'POST',
-    //                 url: `http://localhost:4500/transactions`,
-    //                 data: input,
-    //                 headers: {
-    //                     authorization: `Bearer ${token}`
-    //                 }
-    //             })
-    //           Swal.fire(
-    //             'Checkout!',
-    //             'Insert product to checkout',
-    //             'success'
-    //           )
-    //         }
-    //         // window.location.reload()
-    //       })          
-    // }
 
   return (
     <div>

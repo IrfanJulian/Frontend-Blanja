@@ -24,7 +24,7 @@ const Search = () => {
             try {
                 const res = await axios({
                     method: 'GET',
-                    url: `http://localhost:4500/products?search=${id}`
+                    url: `${process.env.REACT_APP_API}/products?search=${id}`
                 })
                 setData(res.data.data)
             } catch (error) {

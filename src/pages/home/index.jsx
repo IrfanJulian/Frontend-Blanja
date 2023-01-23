@@ -10,21 +10,18 @@ import right from '../../assets/right.png'
 
 const Home = () => {
 
-    // const id = localStorage.getItem('id')
     const navigate = useNavigate()
     const [data, setData] = useState()
-    // const navigate = useNavigate()
     const [page, setPage] = useState(1)
     const [current, setCurrent] = useState()
     const [total, setTotal] = useState()
-    // const [photo, setPhoto] = useState()
 
     useEffect(()=> {
         const getData = async() => {
             try {
                 const res = await axios({
                     method: 'GET',
-                    url: `http://localhost:4500/products?page=${page}`
+                    url: `${process.env.REACT_APP_API}/products?page=${page}`
                 })
                 setData(res.data.data);
                 setCurrent(res.data.pagination.currentPage);
@@ -36,26 +33,6 @@ const Home = () => {
         getData()
     }, [page])
 
-    // useEffect(()=>{
-    //     const getUserPhoto = async() => {
-    //         try {
-    //             const res = await axios({
-    //             method: 'GET',
-    //             url: `http://localhost:4500/user/${id}`
-    //             })
-    //         setPhoto(res)
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     }
-    //     getUserPhoto()
-    // }, [id])
-    // console.log(photo);
-
-    // console.log(page);
-    // console.log(current);
-    // console.log(total);
-    // const [search, setSearch] = useState()
     const [keyword, setKeyword] = useState('')
     const handleChange = (e) => {
         setKeyword(e.target.value)
@@ -65,11 +42,6 @@ const Home = () => {
         e.preventDefault()
         navigate(`/search/${keyword}`)
     }
-    // const res = await axios({
-    //     method: 'GET',
-    //     url: `http://localhost:4500/products?search=${keyword}`
-    // })
-    // setSearch(res.data.data)
 
   return (
     <div>
