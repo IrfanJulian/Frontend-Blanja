@@ -16,7 +16,7 @@ const MyProductSeller = () => {
         const getData = async() => {
             const res = await axios({
                 method: 'GET',
-                url: `http://localhost:4500/products/myProduct/${id}`,
+                url: `${process.env.REACT_APP_API}/products/myProduct/${id}`,
                 headers: {
                     authorization: `Bearer ${token}`
                 }
@@ -39,7 +39,7 @@ const MyProductSeller = () => {
             if (result.isConfirmed) {
                 await axios({
                     method: 'DELETE',
-                    url: `http://localhost:4500/products/${idProduct}`,
+                    url: `${process.env.REACT_APP_API}/products/${idProduct}`,
                     headers: {
                         authorization: `Bearer ${token}`
                     }

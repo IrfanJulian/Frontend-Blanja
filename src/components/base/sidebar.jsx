@@ -19,7 +19,7 @@ const Sidebar = ({ on1, on2, on3 }) => {
         const getData = async () => {
             const res = await axios({
                 method: 'GET',
-                url: `http://localhost:4500/user/${id}`,
+                url: `${process.env.REACT_APP_API}/user/${id}`,
                 headers: {
                     authorization: `Bearer ${token}`
                 }

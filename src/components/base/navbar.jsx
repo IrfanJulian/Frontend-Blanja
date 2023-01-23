@@ -11,16 +11,9 @@ const Navbar = ({ onSubmit, value, onChange, name, type }) => {
     
     const token = localStorage.getItem('token')
     const id = localStorage.getItem('id')
-    // const photo = localStorage.getItem('photo')
     const role = localStorage.getItem('role')
     const navigate = useNavigate()
-    // const [data, setData] = useState(true)
     const [active, setActive] = useState(false)
-    // const [keyword, setKeyword] = useState('')
-// 
-    // const handleChange = (e) => {
-    //     setKeyword(e.target.value)
-    // }
 
     const handleLogout = () => {
         localStorage.clear()
@@ -38,18 +31,12 @@ const Navbar = ({ onSubmit, value, onChange, name, type }) => {
         const getUser = async() => {
             const res = await axios({
                 method: 'GET',
-                url: `http://localhost:4500/user/${id}`
+                url: `${process.env.REACT_APP_API}/user/${id}`
             })
             setPicture(res.data.data[0].photo)
         }
         getUser()
     }, [id, picture])
-    // console.log(picture);
-
-    // const clickSearch = (e) => {
-    //     // e.preventDefault()
-    //     navigate(`/search/${keyword}`)
-    // }
 
   return (
     <div>

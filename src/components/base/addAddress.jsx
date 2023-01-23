@@ -19,7 +19,7 @@ const Address = () => {
         const getData = async() => {
             const res = await axios({
                 url: 'GET',
-                method: `http://localhost:4500/user/${id}`,
+                method: `${process.env.REACT_APP_API}/user/${id}`,
                 headers: {
                     authorization: `Bearer ${token}`
                 }
@@ -41,7 +41,7 @@ const Address = () => {
         try {
             await axios({
                 method: 'PUT',
-                url: `http://localhost:4500/user/contact/${id}`,
+                url: `${process.env.REACT_APP_API}/user/contact/${id}`,
                 headers: {
                     authorization: `Bearer ${token}`
                 },

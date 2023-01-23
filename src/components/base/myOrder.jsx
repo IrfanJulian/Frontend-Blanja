@@ -11,7 +11,7 @@ const MyOrder = () => {
         const getData= async() => {
             const res = await axios({
                 method: 'GET',
-                url: `http://localhost:4500/checkout/${id}`,
+                url: `${process.env.REACT_APP_API}/checkout/${id}`,
                 headers: {
                     authorization: `Bearer ${token}`
                 }

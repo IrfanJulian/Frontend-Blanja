@@ -45,7 +45,7 @@ const AddProduct = () => {
         try {
             await axios({
                 method: 'POST',
-                url: 'http://localhost:4500/products',
+                url: `${process.env.REACT_APP_API}/products`,
                 data: formData,
                 headers: {
                     authorization: `Bearer ${token}`

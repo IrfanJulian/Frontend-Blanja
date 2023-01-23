@@ -21,7 +21,7 @@ const MyOrder = () => {
         const getData= async() => {
             const res = await axios({
                 method: 'GET',
-                url: `http://localhost:4500/checkout/myorder/${id}`,
+                url: `${process.env.REACT_APP_API}/checkout/myorder/${id}`,
                 headers: {
                     authorization: `Bearer ${token}`
                 }
@@ -44,7 +44,7 @@ const MyOrder = () => {
             if (result.isConfirmed) {
                 await axios({
                     method: 'PUT',
-                    url: `http://localhost:4500/checkout/${idCheckout}`,
+                    url: `${process.env.REACT_APP_API}/checkout/${idCheckout}`,
                     headers: {
                         authorization: `Bearer ${token}`
                     },

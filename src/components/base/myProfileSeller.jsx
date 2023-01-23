@@ -20,7 +20,7 @@ const MyProfile = () => {
         const getData = async () => {
             const res = await axios({
                 method: 'GET',
-                url: `http://localhost:4500/user/${id}`,
+                url: `${process.env.REACT_APP_API}/user/${id}`,
                 headers: {
                     authorization: `Bearer ${token}`
                 }
@@ -50,7 +50,7 @@ const MyProfile = () => {
         try {
             await axios({
                 method: 'PUT',
-                url: `http://localhost:4500/user/${id}`,
+                url: `${process.env.REACT_APP_API}/user/${id}`,
                 data: formData,
                 headers: {
                     authorization: `Bearer ${token}`
@@ -66,7 +66,7 @@ const MyProfile = () => {
             Swal.fire({
                 icon: 'error',
                 title: 'Failed...',
-                text: 'Update product failed'
+                text: error
               })
               console.log(error);
         }

@@ -1,5 +1,4 @@
 import React, {useState,useEffect} from 'react'
-// import CheckBox from './check-box'
 import line from '../../assets/Line.png'
 import icon from '../../assets/user (1).png'
 import axios from 'axios'
@@ -9,23 +8,20 @@ const MyProfile = () => {
 
     const id = localStorage.getItem('id')
     const token = localStorage.getItem('token')
-    // const [data, setData] = useState()
     const [picture, setPicture] = useState(null)
     useEffect(()=>{
         const getData = async () => {
             const res = await axios({
                 method: 'GET',
-                url: `http://localhost:4500/user/${id}`,
+                url: `${process.env.REACT_APP_API}/user/${id}`,
                 headers: {
                     authorization: `Bearer ${token}`
                 }
             })
-            // setData(res.data.data[0])
             setPicture(res.data.data[0].photo)
         }
         getData()
     }, [id, token])
-    // console.log(picture);
 
     const [dataCustomer, setDataCustomer] = useState({
         name: '',
@@ -46,7 +42,7 @@ const MyProfile = () => {
         try {
             await axios({
                 method: 'PUT',
-                url: `http://localhost:4500/user/${id}`,
+                url: `${process.env.REACT_APP_API}/user/${id}`,
                 data: formData,
                 headers: {
                     authorization: `Bearer ${token}`
