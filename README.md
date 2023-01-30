@@ -4,7 +4,7 @@ Blanja is E-commerce application. Get your life easier with Blanja.
 
 
 ## Demo
-Here is a working live demo :  https://github.com/IrfanJulian/Frontend-Blanja.git
+Here is a working live demo :  https://ecommerce-blanja.netlify.app
 
 ### Landing Page
 ![](https://res.cloudinary.com/ddpo9zxts/image/upload/v1673453987/Untitled-1_zbmyff.jpg)
