@@ -1,6 +1,5 @@
 import React, {useState,useEffect} from 'react'
 import { Link } from 'react-router-dom'
-// import icon from '../../assets/c230c71abf535e523ea4f28a4b0aa060.jpg'
 import user from '../../assets/user.png'
 import map from '../../assets/map-pin.png'
 import clipboard from '../../assets/clipboard.png'

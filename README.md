@@ -34,7 +34,7 @@ Here is a working live demo :  https://github.com/IrfanJulian/Frontend-Blanja.gi
 ![](https://res.cloudinary.com/ddpo9zxts/image/upload/v1673454957/Untitled-8_octsn1.jpg)
 
 
-## [Usage](https://blanja.github.io/WebApp/) 
+## [Usage](https://ecommerce-blanja.netlify.app) 
 
 ### Development
 Want to contribute? Great!
