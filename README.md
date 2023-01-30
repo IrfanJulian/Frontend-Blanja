@@ -1,5 +1,7 @@
 # Blanja
 ![](https://res.cloudinary.com/ddpo9zxts/image/upload/v1673453253/Untitled-2_omh8sc.png)
+
+### About E-commerce Blanja
 Blanja is E-commerce application. Get your life easier with Blanja.
 
 ## Table Of Content
