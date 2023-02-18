@@ -1,64 +1,69 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, {useState} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import logo from '../../../assets/logo-blanja.png'
-import ButtonAuth from '../../../components/base/button-auth'
 import Swal from 'sweetalert2'
+import logo from '../../../assets/logo-blanja.png'
+import Button from '../../../component/base/Button'
+import Input from '../../../component/base/Input'
 
 const Login = () => {
-
+    
     const navigate = useNavigate()
-
-    const [login, setLogin] = useState({
+    const [show, setShow] = useState(false)
+    const [form, setForm] = useState({
         email: '',
         password: ''
     })
 
     const handleChange = (e) => {
-        setLogin({
-            ...login,
+        setForm({
+            ...form,
             [e.target.name]: e.target.value
         })
     }
 
     const handleLogin = async(e) => {
-        e.preventDefault() 
+        e.preventDefault()
+        try {
             const res = await axios({
                 method: 'POST',
-                url:`${process.env.REACT_APP_API}/user/login`,
-                data: login
+                url: `${process.env.REACT_APP_API}user/login`,
+                data: form
             })
-            const dataUser = res.data.data
-            localStorage.setItem('id', dataUser.id)
-            localStorage.setItem('token', dataUser.token)
-            localStorage.setItem('role', dataUser.role)
-            localStorage.setItem('photo', dataUser.photo)
+            console.log(res);
+            localStorage.setItem('token', res.data.data.token)
+            localStorage.setItem('id', res.data.data.id)
+            localStorage.setItem('name', res.data.data.name)
+            localStorage.setItem('role', res.data.data.role)
             Swal.fire({
                 icon: 'success',
-                title: 'Success...',
-                text: 'Login Success'
+                title: 'Register success',
+                text: 'Check your email to get OTP'
               })
-            navigate('/home')
+              navigate(`/`)
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Register failed',
+                text: error
+              })
+        }
     }
 
-    
   return (
-    <div>
-        <div className="container mx-auto mt-[5rem]">
-            <img src={logo} className='mx-auto' alt="logo" />
-            <h2 className='font-bold my-[2rem] text-lg'>Please Login with your account.</h2>
-            <ButtonAuth/>
-            <form onSubmit={handleLogin} className='mt-[3rem] grid'>
-                <div className='w-1/4 mx-auto'>
-                    <input type="email" name='email' onChange={handleChange} value={login.email} placeholder='Email . . .' className='border border-gray-400 text-gray-500 mx-auto outline-none w-full rounded-md py-3 px-5 font-semibold'  />
-                    <input type="password" name='password' onChange={handleChange} value={login.password} placeholder='Password . . .' className='border border-gray-400 text-gray-500 mx-auto outline-none w-full rounded-md my-3 py-3 px-5 mb-7 font-semibold'  />
-                    <Link to={'/'}>
-                        <p className='text-[#DB3022] font-semibold text-end'>Forgot Password</p>
-                    </Link>
-                    <button type='submit' className='w-full py-3 bg-[#DB3022] rounded-full mt-7 text-white font-semibold'>Login</button>
+    <div className='py-10 grid h-screen' id='font-custom'>
+        <div className="wrapper w-3/4 h-max my-auto lg:w-1/2 mx-auto">
+            <img src={logo} alt="logo" className='mx-auto' />
+            <p className='text-md lg:text-xl font-bold my-10'>Login whit your account.</p>
+            <form onSubmit={handleLogin} className='w-full lg:w-1/2 mx-auto'>
+                <Input name='email' type='email' onChange={handleChange} value={form.email} placeholder='Insert your email' />
+                <div className="flex">
+                    <input type={show === false ? 'password' : 'text'} className='py-2 px-4 border-l-2 border-b-2 border-t-2 w-3/4 outline-none mb-4' name="password" value={form.password} onChange={handleChange} placeholder="Insert your pasword"/>
+                    <button type="button" onClick={()=>show === false ? setShow(true) : setShow(false)} className='border-t-2 border-b-2 border-r-2 py-2 h-max w-1/4 font-bold' >{show === false ? 'Show' : 'Hide'}</button>
                 </div>
+                <Button type='submit' name='Login' className='py-2 bg-red-600 rounded-xl text-md text-white w-1/2 font-semibold my-5' />
             </form>
-            <p className='text-md mt-7'>Don't have Blanja account?<Link to={'/register'}><span className='text-[#DB3022] ml-2 font-semibold'>Register</span></Link></p>
+            <p>Do not have an account? <span className='font-semibold'><Link to={'/register'}>Register</Link></span></p>
         </div>
     </div>
   )

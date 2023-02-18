@@ -1,88 +1,51 @@
-import axios from 'axios'
-import React, {useState, useEffect} from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import Carousel from '../../components/base/carousel'
-import CategorySlider from '../../components/base/category-slider'
-import Navbar from '../../components/base/navbar'
-import ProductList from '../../components/base/product-list'
-import left from '../../assets/left.png'
-import right from '../../assets/right.png'
+import React, { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import CardProducts from '../../component/base/CardProducts'
+import Carousel from '../../component/base/Carousel'
+import Category from '../../component/base/Category'
+import Navbar from '../../component/module/Navbar'
+import { getProduct } from '../../redux/action/productAction'
+import { Link } from 'react-router-dom'
+import Pagination from '../../component/base/Pagination'
 
 const Home = () => {
 
-    const navigate = useNavigate()
-    const [data, setData] = useState()
-    const [page, setPage] = useState(1)
-    const [current, setCurrent] = useState()
-    const [total, setTotal] = useState()
+  const [search, setSearch] = useState('')
+  const [page, setPage] = useState(0)
+  const { product } = useSelector((state)=>state.product)
+  const dispatch = useDispatch()
+  const handleSearchProduct = (e) => {
+    e.preventDefault()
+    dispatch(getProduct(search, page))
+  }
+  console.log(product);
 
-    useEffect(()=> {
-        const getData = async() => {
-            try {
-                const res = await axios({
-                    method: 'GET',
-                    url: `${process.env.REACT_APP_API}/products?page=${page}`
-                })
-                setData(res.data.data);
-                setCurrent(res.data.pagination.currentPage);
-                setTotal(res.data.pagination.totalPage);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        getData()
-    }, [page])
-
-    const [keyword, setKeyword] = useState('')
-    const handleChange = (e) => {
-        setKeyword(e.target.value)
-    }
-
-    const clickSearch = async(e) => {
-        e.preventDefault()
-        navigate(`/search/${keyword}`)
-    }
+  useEffect(()=>{
+      dispatch(getProduct())
+  }, [dispatch])
 
   return (
-    <div>
-        <div className="shadow-xl shadow-gray-200">
-            <Navbar onSubmit={clickSearch} value={keyword} onChange={handleChange} name='keywood' type='submit' />     
-        </div>
-        <div className="container mx-auto my-20 rounded-3xl w-1/2">
-            <Carousel />
-        </div>
-        <div className="container mx-auto">
-            <p className='text-4xl font-bold text-start'>Category</p>
-            <p className='text-lg text-start my-5 text-gray-400'>What are you looking for</p>
-            <CategorySlider />
-        </div>
-        { data ? 
-            <div className="container mx-auto mb-[5rem]">
-                <p className='text-4xl font-bold text-black text-start'>Products</p>
-                <p className='text-lg text-start my-5 text-gray-400'>You've never seen it before</p>
-                <div className='grid grid-cols-5 gap-12'>
-                { data ? data.map((product)=>
-                    <Link to={`/product-detail/${product.id}`} key={product.id}>
-                        <ProductList key={product.id} name={product.name} price={product.price} brand={product.brand} photo={product.photo} />
-                    </Link>
-                ) : null }
-                </div>
+    <div className='py-10' id='font-custom'>
+        <Navbar search={(e)=>{setSearch(e.target.value)}} name='search' value={search} handleSearch={handleSearchProduct} />
+        <Carousel className='mt-20 mb-10' />
+        <Category className='md:my-20' />
+        <div className="products container mx-auto">
+          <p className='text-xl md:text-3xl font-semibold md:text-left my-10 md:mb-10'>New Products</p>
+          <div className="grid md:grid-cols-5 md:gap-12 md:px-8">
+            { product ?
+            <div>
+            { product.length !== 0 ? product.map((item)=>
+            <Link key={item.id} to={`/product-detail/${item.id}`}>
+              <CardProducts photo={item.photo} tittle={item.name} price={item.price} brand={item.brand} />
+            </Link>
+            ):
+              <p className='text-md lg:text-xl font-bold'>Nothing Products to Show</p>
+            }
             </div>
-        : null }
-        
-        <div className="container pagin mx-auto">
-            <div className="wrapper flex w-max h-max mx-auto mb-10 p-10">
-                <button className='mx-5' onClick={()=>setPage(page- 1)}>
-                    <img src={left} alt="arrow" className='w-8 h-8' />
-                </button>
-                { current && total ?
-                    <p className='text-xl font-semibold'>{current} / {total}</p>
-                : null }
-                <button className='mx-5' onClick={()=>setPage(page + 1)}>
-                    <img src={right} alt="arrow" className='w-8 h-8' />
-                </button>
-            </div>
+            : <p className='text-md lg:text-xl font-bold'>Nothing Products to Show</p> }
+          </div>
         </div>
+        <Pagination className='md: my-10' onClick1={()=>setPage((current)=>current+1)} onClick2={()=>setPage((current)=>current-1)} />
     </div>
   )
 }

@@ -1,164 +1,156 @@
 import React, {useState,useEffect} from 'react'
-import Breadcrumb from '../../components/base/breadcrumb'
-import Navbar from '../../components/base/navbar'
-import star from '../../assets/Star.png'
 import { Link, useParams } from 'react-router-dom'
+import Swal from 'sweetalert2'
+import Navbar from '../../component/module/Navbar'
+import CardProducts from '../../component/base/CardProducts'
 import min from '../../assets/min.png'
 import plus from '../../assets/plus.png'
-import ProductList from '../../components/base/product-list'
+import { useDispatch, useSelector } from 'react-redux'
+import { getProduct } from '../../redux/action/productAction'
 import axios from 'axios'
-import Swal from 'sweetalert2'
+import Loading from '../../component/base/Loading'
 
 const ProductDetail = () => {
 
-    const id_customer = localStorage.getItem('id')
-    const token = localStorage.getItem('token')
-    const [data, setData] = useState()
     const {id} = useParams()
+    const token = localStorage.getItem('token')
+    const idUser = localStorage.getItem('id')
+    const [total] = useState(0)
+    const [search, setSearch] = useState('')
     const [qty, setQty] = useState(1)
-    
-    useEffect(()=> {
-        const getData = async() => {
-            const res = await axios({
-                method: 'GET',
-                url:`${process.env.REACT_APP_API}/products/${id}`
-            })
-            setData(res.data.data[0])
+    const [data, setData] = useState()
+    const { product } = useSelector((state)=>state.product)
+    const dispatch = useDispatch()
+
+    const handleSearchProduct = (e) => {
+      e.preventDefault()
+      dispatch(getProduct(search))
+    }
+  
+    useEffect(()=>{
+        const getDetail = async() => {
+            try {
+                const res = await axios.get(`${process.env.REACT_APP_API}products/${id}`)
+                setData(res.data.data[0])
+            } catch (error) {
+                console.log(error);
+            }
         }
-        getData()
+        getDetail()
     }, [id])
 
-    const [add, setAdd] = useState({
-        id_customer: '',
-        id_seller: '',
-        id_product: '',
-        qty: qty,
-        total_price: ''
-    })
+    useEffect(()=>{
+        dispatch(getProduct())
+    }, [dispatch])
 
-    if(data){
-        add.id_customer = id_customer
-        add.id_seller = data.id_seller
-        add.id_product = data.id
-        add.qty = qty
-        add.total_price = data.price
-    }
-    console.log(setAdd);
-
-    const addBag = async () => {
-        try {
-            await axios({
-                method: 'POST',
-                url: `${process.env.REACT_APP_API}/transactions`,
-                data: add,
-                headers: {
-                    authorization: `Bearer ${token}`
+    const addCart = (e) => {
+        e.preventDefault()
+        Swal.fire({
+            title: 'Add to cart?',
+            text: "This process will add item to your cart",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Add to cart'
+          }).then(async(result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                try {
+                    await axios({
+                        method: 'POST',
+                        url: `${process.env.REACT_APP_API}mybag`,
+                        headers: {
+                            authorization: `Bearer ${token}`
+                        },
+                        data: {
+                            id_user: idUser,
+                            id_product: id,
+                            qty,
+                            total
+                        }
+                    })
+                    Swal.fire('Add to cart success!', '', 'success')
+                } catch (error) {
+                    Swal.fire('Add to cart failed!', '', 'error')
+                    console.log(error);
                 }
-            })
-            Swal.fire({
-                icon: 'success',
-                title: 'Success...',
-                text: 'Check your products in my bag page'
-              })
-        } catch (error) {
-            console.log(error);
-        }
+            } else if (result.isDenied) {
+              Swal.fire('Changes are not saved', '', 'info')
+            }
+        })
     }
 
   return (
-    <div>
-        <div className="nav shadow-xl shadow-gray-200">
-            <Navbar />
-        </div>
-        <div className="bc my-10">
-            <Breadcrumb />
-        </div>
-        <div className="container mx-auto py-10">
-            { data ? 
-            <div>
-                <div className="flex">         
-                    <div className="wrapper w-1/2 rounded-xl">
-                        <img src={data.photo} alt="" className='w-max h-max' />
-                    </div>
-                    <div className="wrapper w-1/2 px-20">
-                        <p className='text-3xl font-semibold text-black text-start'>{data.name}</p>
-                        <p className='text-xl text-gray-400 text-start my-5'>{data.brand}</p>
-                        <div className="flex mb-10">
-                            <img src={star} alt="rate" className='mr-1 w-[1rem] h-[1rem]' />
-                            <img src={star} alt="rate" className='mr-1 w-[1rem] h-[1rem]' />
-                            <img src={star} alt="rate" className='mr-1 w-[1rem] h-[1rem]' />
-                            <img src={star} alt="rate" className='mr-1 w-[1rem] h-[1rem]' />
-                            <img src={star} alt="rate" className='mr-1 w-[1rem] h-[1rem]' />
-                            <p className='text-sm text-gray-400'>( 10 )</p>
+    <div className='py-10' id='font-custom'>
+        <Navbar search={(e)=>{setSearch(e.target.value)}} name='search' value={search} handleSearch={handleSearchProduct} />
+        { data ? 
+        <div>
+            <div className="container mx-auto md:flex py-10">
+                <div className="md:w-max md:mr-16">
+                    <CardProducts photo={data.photo} classNameImage='w-[15rem] h-[15rem] md:w-[35rem] md:h-[35rem] mx-auto' classNameCard='p4' classNameTittle='' />
+                </div>
+                <div className="md:w-1/2 px-7 md:px-0 md:h-max my-auto">
+                    <div className="wrapper">
+                        <div className="tittle mt-10 md:mt-0">
+                            <p className='text-left font-bold text-xl md:text-4xl'>{data.name}</p>
+                            <p className='text-left text-lg'>{data.brand}</p>
                         </div>
-                        <p className='text-xl text-gray-400 text-start my-5'>Price</p>
-                        <p className='text-2xl font-bold text-black text-start mb-10'>${data.price}</p>
-                        <p className='text-xl text-gray-400 text-start my-5'>Color</p>
-                        <div className="flex mb-10">
-                            <Link><div className="color w-[2.5rem] h-[2.5rem] rounded-full mr-3 bg-black"></div></Link>
-                            <Link><div className="color w-[2.5rem] h-[2.5rem] rounded-full mr-3 bg-red-500"></div></Link>
-                            <Link><div className="color w-[2.5rem] h-[2.5rem] rounded-full mr-3 bg-blue-500"></div></Link>
-                            <Link><div className="color w-[2.5rem] h-[2.5rem] rounded-full mr-3 bg-green-500"></div></Link>
+                        <div className="price mt-3 md:mt-10">
+                            <p className='font-semibold text-lg md:text-2xl text-left'>Price</p>
+                            <p className='text-md md:text-xl text-red-600 text-left'>Rp. {data.price}</p>
                         </div>
-                        <div className="flex my-5">
-                            <div className="size">
-                                <p className='text-xl text-black font-semibold text-start my-5'>Size</p>
-                                <div className="qty my-auto ml-auto mr-20 flex">
-                                    <Link><img src={min} alt="btn" className='w-[3rem] h-[3rem]' /></Link>
-                                    <p className='text-xl font-semibold text-black my-auto mx-5'>2</p>
-                                    <Link><img src={plus} alt="btn" className='w-[3rem] h-[3rem]' /></Link>
-                                </div>
-                            </div>
-                            <div className="qty">
-                                <p className='text-xl text-black font-semibold text-start my-5'>Jumlah</p>
-                                <div className="qty my-auto ml-auto mr-20 flex">
-                                    <Link><img src={min} onClick={()=>setQty(qty-1)} alt="btn" className='w-[3rem] h-[3rem]' /></Link>
-                                    <p className='text-xl font-semibold text-black my-auto mx-5'>{qty}</p>
-                                    <Link><img src={plus} onClick={()=>setQty(qty+1)} alt="btn" className='w-[3rem] h-[3rem]' /></Link>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="flex mt-14">
-                            <button className='w-1/2 border border-black rounded-full py-4 mr-3'>Chat</button>
-                            <button type='submit' onClick={addBag} className='w-1/2 border border-black rounded-full py-4 ml-3'>Add Bag</button>
-                        </div>
-                        <button className='w-full border bg-[#DB3022] rounded-full py-4 mt-8 text-white font-semibold text-xl'>Buy Now</button>
-                    </div> 
-                </div>           
-                <div className="wrapper my-10">
-                    <p className='text-3xl font-semibold text-black text-start'>Informasi Produk</p>
-                    <p className='text-xl font-semibold text-black text-start mt-10'>Condition</p>
-                    <p className='text-xl font-semibold text-[#DB3022] text-start mt-2'>{data.condition}</p>
-                    <p className='text-xl font-semibold text-black text-start mt-10'>Description</p>
-                    <p className='text-lg text-gray-400 text-start mt-2'>{data.description}</p>
-                    <div className="rate my-10">
-                        <p className='text-3xl font-semibold text-black text-start'>Product Review</p>
-                        <div className="value my-10">
+                        <div className="size mt-5">
+                            <p className='font-semibold text-lg md:text-2xl text-left'>Size</p>
                             <div className="flex">
-                                <p className='text-8xl text-start'>5.0</p>
-                                <p className='text-2xl text-gray-400 mt-auto text-start'>/10</p>
+                                <Link className='w-max h-max'><img src={min} alt="size" className='w-7 h-7 md:w-10 md:h-10' /></Link>
+                                <p className='text-md md:text-xl mx-4 my-auto'>L</p>
+                                <Link className='w-max h-max'><img src={plus} alt="size" className='w-7 h-7 md:w-10 md:h-10' /></Link>
                             </div>
-                            <div className="flex my-5">
-                                <img src={star} alt="rate" className='mr-1 w-[1rem] h-[1rem]' />
-                                <img src={star} alt="rate" className='mr-1 w-[1rem] h-[1rem]' />
-                                <img src={star} alt="rate" className='mr-1 w-[1rem] h-[1rem]' />
-                                <img src={star} alt="rate" className='mr-1 w-[1rem] h-[1rem]' />
-                                <img src={star} alt="rate" className='mr-1 w-[1rem] h-[1rem]' />
-                                <p className='text-sm text-gray-400'>( 10 )</p>
+                        </div>
+                        <div className="quantity mt-5">
+                            <p className='font-semibold text-lg md:text-2xl text-left'>Quantity</p>
+                            <div className="flex">
+                                <Link onClick={()=>setQty((current)=>current-1)} className='w-max h-max'><img src={min} alt="size" className='w-7 h-7 md:w-10 md:h-10' /></Link>
+                                <p className='text-md md:text-xl mx-4 my-auto'>{qty}</p>
+                                <Link onClick={()=>setQty((current)=>current+1)} className='w-max h-max'><img src={plus} alt="size" className='w-7 h-7 md:w-10 md:h-10' /></Link>
                             </div>
+                        </div>
+                        <div className="button w-full md:w-3/4 mt-10">
+                            <div className="flex mx-auto mb-3">
+                                <button onClick={addCart} className='w-1/2 py-3 bg-red-600 rounded-full text-white text-md md:text-lg font-normal md:font-semibold mr-2'>Add to Cart</button>
+                                <button className='w-1/2 py-3 bg-red-600 rounded-full text-white text-md md:text-lg font-normal md:font-semibold ml-2'>Chat</button>
+                            </div>
+                            <button className='w-full py-3 bg-red-600 rounded-full text-white text-md md:text-lg font-normal md:font-semibold'>Buy Now</button>
                         </div>
                     </div>
                 </div>
             </div>
-            : null }
-            <hr className='my-10' />
-            <div className="wrapper">
-                <div className="tittle">
-                    <p className='text-4xl font-bold text-start'>You can also like this</p>
-                    <p className='text-xl text-gray-400 text-start'>You've never seen it before</p>
+            <div className="container mx-auto px-7 md:px-0">
+                <div className="wrapper w-3/4">
+                    <p className='font-bold text-2xl text-left'>Description</p>
+                    <div className="desc my-4 md:my-10">
+                        <p className='text-left'>{data.description}</p>
+                    </div>
                 </div>
-                <ProductList />
             </div>
+        </div>
+        :
+        <div className='w-full px-20 md:px-0'>
+            <Loading className='mx-auto w-[20rem] h-20rem' />
+        </div>
+        }
+        <div className="container mx-auto mt-8 md:mt-20 px-7 md:px-0 mb-10">
+            <p className='font-bold text-2xl mb-10 text-left'>Product For You</p> 
+            { product ?
+            <div className="grid md:grid-cols-5 md:gap-12 md:px-8">
+                { product.map((item)=>
+                <CardProducts photo={item.photo} tittle={item.name} price={item.price} brand={item.brand} />
+                )}
+            </div>
+            : 
+            <p className='text-md md:text-xl font-bold'>Nothing Products to Show</p>
+            }
         </div>
     </div>
   )

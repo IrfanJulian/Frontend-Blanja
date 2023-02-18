@@ -1,121 +1,112 @@
-import axios from 'axios'
-import React, {useState} from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import Swal from 'sweetalert2'
-import logo from '../../../assets/logo-blanja.png'
-import ButtonAuth from '../../../components/base/button-auth'
+import axios from "axios";
+import React, {useState} from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import logo from "../../../assets/logo-blanja.png";
+import Button from "../../../component/base/Button";
+import Input from "../../../component/base/Input";
 
 const Register = () => {
 
     const navigate = useNavigate()
-    const [roles, setRoles] = useState('')
-    const [registerSeller, setRegisterSeller] = useState({
+    const [show, setShow] = useState(false)
+    const [roles, setRoles] = useState("customer");
+    const [formRegister, setFormRegister] = useState({
         name: '',
         email: '',
-        phone_number: '',
+        password: '',
         store_name: '',
-        password: '',
-        role: 'seller'
+        store_description: '',
+        role: roles
     })
+
+    const handleRole = (e) => {
+        setRoles(e.target.value)
+    }
     
-    const handleChangeSeller = (e) => {
-        setRegisterSeller({
-            ...registerSeller,
-            [e.target.name]:e.target.value
-        })
-    }
-
-    const [register, setRegister] = useState({
-        name: '',
-        email: '',
-        password: '',
-        role: 'customer'
-    })
-     
-
     const handleChange = (e) => {
-        setRegister({
-            ...register,
-            [e.target.name]:e.target.value
+        setFormRegister({
+            ...formRegister,
+            [e.target.name]: e.target.value
         })
-    }
-
-    const handleRegisterSeller = async(e) => {
-        e.preventDefault()
-        try {
-            await axios({
-                method: 'POST',
-                url: `${process.env.REACT_APP_API}/user/register`,
-                data: registerSeller
-            })
-            Swal.fire({
-                icon: 'success',
-                title: 'Success...',
-                text: 'Register Success',
-              })
-            navigate('/login')
-        } catch (error) {
-            console.log(error);
-        }
     }
 
     const handleRegister = async(e) => {
         e.preventDefault()
-        try {
+        if(formRegister.password.length >= 8){
+          try {
             await axios({
-                method: 'POST',
-                url: `${process.env.REACT_APP_API}/user/register`,
-                data: register
+              method: 'POST',
+              url: `${process.env.REACT_APP_API}user/register`,
+              data: formRegister
             })
             Swal.fire({
-                icon: 'success',
-                title: 'Success...',
-                text: 'Register Success',
+              icon: 'success',
+              title: 'Register success',
+              text: 'Check your email to get OTP'
+            })
+            navigate(`/otp/${formRegister.email}`)
+          } catch (error) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Register failed',
+              text: error
+            })
+          }
+        }else{
+            Swal.fire({
+                icon: 'error',
+                title: 'Register failed',
+                text: 'Password min. 8 character!'
               })
-            navigate('/login')
-        } catch (error) {
-            console.log(error);
         }
     }
 
-  return (
-    <div>
-        <div>
-            <div className="container mx-auto mt-[5rem]">
-                <img src={logo} className='mx-auto' alt="logo" />
-                <h2 className='font-bold my-[2rem] text-lg'>Please Sign up here.</h2>
-                <ButtonAuth on1={()=>setRoles('customer')} on2={()=>setRoles('seller')} />
-                {roles === 'seller' ?
-                <form onSubmit={handleRegisterSeller} className='mt-[3rem] grid'>
-                    <div className='w-1/4 mx-auto'>
-                        <input type="text" name='name' value={registerSeller.name} onChange={handleChangeSeller} placeholder='Name . . .' className='border border-gray-400 text-gray-500 mx-auto outline-none w-full rounded-md py-3 px-5 mb-5 font-semibold' />
-                        <input type="email" name='email' value={registerSeller.email} onChange={handleChangeSeller} placeholder='Email . . .' className='border border-gray-400 text-gray-500 mx-auto outline-none w-full rounded-md py-3 px-5 mb-5 font-semibold' />
-                        <input type="text" name='phone_number' value={registerSeller.phone_number} onChange={handleChangeSeller} placeholder='Phone number . . .' className='border border-gray-400 text-gray-500 mx-auto outline-none w-full rounded-md py-3 px-5 mb-5 font-semibold' />
-                        <input type="text" name='store_name' value={registerSeller.store_name} onChange={handleChangeSeller} placeholder='Store name . . .' className='border border-gray-400 text-gray-500 mx-auto outline-none w-full rounded-md py-3 px-5 mb-2 font-semibold' />
-                        <input type="password" name='password' value={registerSeller.password} onChange={handleChangeSeller} placeholder='Password . . .' className='border border-gray-400 text-gray-500 mx-auto outline-none w-full rounded-md my-3 py-3 px-5 mb-5 font-semibold' />
-                        <Link to={'/'}>
-                            <p className='text-[#DB3022] font-semibold text-end'>Forgot Password</p>
-                        </Link>
-                        <button type='submit' className='w-full py-3 bg-[#DB3022] rounded-full mt-7 text-white font-semibold'>Register</button>
-                    </div>
-                </form> :
-                <form onSubmit={handleRegister} className='mt-[3rem] grid'>
-                    <div className='w-1/4 mx-auto'>
-                        <input type="text" name='name' value={register.name} onChange={handleChange} placeholder='Name . . .' className='border border-gray-400 text-gray-500 mx-auto outline-none w-full rounded-md py-3 px-5 mb-5 font-semibold' />
-                        <input type="email" name='email' value={register.email} onChange={handleChange} placeholder='Email . . .' className='border border-gray-400 text-gray-500 mx-auto outline-none w-full rounded-md py-3 px-5 mb-5 font-semibold' />
-                        <input type="password" name='password' value={register.password} onChange={handleChange} placeholder='Password . . .' className='border border-gray-400 text-gray-500 mx-auto outline-none w-full rounded-md py-3 px-5 mb-5 font-semibold' />
-                        <Link to={'/'}>
-                            <p className='text-[#DB3022] font-semibold text-end'>Forgot Password</p>
-                        </Link>
-                        <button type='submit' className='w-full py-3 bg-[#DB3022] rounded-full mt-7 text-white font-semibold'>Register</button>
-                    </div>
-                </form>
-                }
-                <p className='text-md mt-7'>Don't have Blanja account?<Link to={'/login'}><span className='text-[#DB3022] ml-2 font-semibold'>Login</span></Link></p>
-            </div>
-        </div>
-    </div>
-  )
-}
+    console.log(formRegister);
 
-export default Register
+  return (
+    <div className='py-10 grid h-screen' id='font-custom'>
+      <div className="wrapper w-3/4 h-max my-auto lg:w-1/2 mx-auto">
+        <img src={logo} alt="logo" className="mx-auto" />
+        <div className="flex mt-10 w-max mx-auto">
+          {roles === "customer" ? (
+            <button className="py-2 w-[5.5rem] lg:w-[8rem] text-sm lg:text-md rounded-tl-xl rounded-bl-xl bg-red-600 text-white font-semibold">Customer</button>
+          ) : (
+            <button onClick={() => setRoles("customer")} className="py-2 w-[5.5rem] lg:w-[8rem] text-sm lg:text-md border-t-2 border-l-2 border-b-2 border-red-600 text-red-600 font-semibold rounded-tl-xl rounded-bl-xl">Customer</button>
+          )}
+          {roles === "seller" ? (
+            <button className="py-2 w-[5.5rem] lg:w-[8rem] text-sm lg:text-md rounded-rt-xl rounded-br-xl rounded-tr-xl bg-red-600 text-white font-semibold">Seller</button>
+          ) : (
+            <button onClick={() => setRoles("seller")} className="py-2 w-[5.5rem] lg:w-[8rem] text-sm lg:text-md border-t-2 border-r-2 border-b-2 border-red-600 text-red-600 font-semibold rounded-tr-xl rounded-br-xl">Seller</button>
+          )}
+        </div>
+        <p className='text-md lg:text-xl font-bold my-10'>Sign up here to create account.</p>
+        <form onSubmit={handleRegister} className="w-full lg:w-1/2 mx-auto">
+            <Input name='name' type='text' value={formRegister.name} onChange={handleChange} placeholder='Insert your name' />
+            <Input name="email" type="email" value={formRegister.email} onChange={handleChange} placeholder="Insert your email"/>
+            <div className="flex">
+                <input type={show === false ? 'password' : 'text'} className='py-2 px-4 border-l-2 border-b-2 border-t-2 w-3/4 outline-none mb-4' name="password" value={formRegister.password} onChange={handleChange} placeholder="Insert your pasword"/>
+                <button type="button" onClick={()=>show === false ? setShow(true) : setShow(false)} className='border-t-2 border-b-2 border-r-2 py-2 h-max w-1/4 font-bold' >{show === false ? 'Show' : 'Hide'}</button>
+            </div>
+            { roles === 'seller' ?
+            <div>
+                <Input name='store_name' type='text' value={formRegister.store_name} onChange={handleChange} placeholder='Insert your store name' />
+                <Input name='store_description' type='text' value={formRegister.store_description} onChange={handleChange} placeholder='Insert your store description' />
+            </div>
+            : null }
+            <div className="grid">
+                <select name="role" onChange={handleRole} className="bg-red-600 text-white font-semibold w-max mx-auto py-1 px-2 text-md text-center rounded-xl" id="">
+                    <option value="">Confirmation your role</option>
+                    <option value="customer">Customer</option>
+                    <option value="seller">Seller</option>
+                </select>
+                <Button name="Register" className="py-2 mx-auto bg-red-600 rounded-xl text-md text-white w-1/2 font-semibold my-5"/>
+            </div>
+        </form>
+        <p>Already have an account?{" "}<span className="font-semibold"><Link to={"/login"}>Login</Link></span></p>
+      </div>
+    </div>
+  );
+};
+
+export default Register;
