@@ -8,58 +8,59 @@ import message from '../../assets/message.png'
 import userIcon from '../../assets/user (1).png'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDataUser } from '../../redux/action/userAction'
-import Loading from '../base/Loading'
 import { Link, useNavigate } from 'react-router-dom'
 
-const Navbar = ({ search, handleSearch, name, value, click }) => {
+const Navbar = ({ search }) => {
 
+    const id = localStorage.getItem('id')
     const dispatch = useDispatch()
     const token = localStorage.getItem('token')
     const navigate = useNavigate()
     const { user } = useSelector((state)=>state.user)
-    const [menu, setMenu] = useState(click)
-    console.log('menu', menu);
-    console.log('click', click);
+    const [menu, setMenu] = useState(false)
+    const [key, setKey] = useState('')
+
     const [menuDekstop, setMenuDekstop] = useState(false)
-    console.log(menu);
 
     useEffect(()=>{
-        dispatch(getDataUser())
-    }, [dispatch])
+        dispatch(getDataUser(id))
+    }, [dispatch, id])
 
   return (
     <div className='md:shadow-lg md:py-10 md:fixed-top md:bg-white' id='font-custom'>
-        { user ?
         <div className='container mx-auto md:flex'>
             <div className="hidden logo md:w-2/12 md:relative md:flex">
-                <Link to={'/'} className='mx-auto md:mx-0'>
+                <Link to={'/'} className='mx-auto md:mx-0 hover:opacity-80'>
                     <img src={logo} alt="logo" className='' />
                 </Link>
             </div>
             {/* dekstop  */}
             <div className="searchWrapper hidden md:w-6/12 md:flex pr-3">
-                <input onChange={search} name={name} value={value} type="text" className='py-2 outline-none w-11/12 px-4 rounded-bl-full rounded-tl-full border-l-2 border-b-2 border-t-2' placeholder='Search something.....' />
-                <button onClick={handleSearch} className='py-2 border-r-2 w-1/12 border-b-2 border-t-2 rounded-br-full rounded-tr-full pr-3 md:pr-0 md:pl-4'><img src={searchIcon} alt="search" /></button>
+                <input onChange={(e)=>setKey(e.target.value)} name='key' value={key} type="text" className='py-2 outline-none w-11/12 px-4 rounded-bl-full rounded-tl-full border-l-2 border-b-2 border-t-2' placeholder='Search something.....' />
+                <button onClick={()=>navigate(`/search/${search}`)} className='py-2 border-r-2 w-1/12 border-b-2 border-t-2 rounded-br-full rounded-tr-full pr-3 md:pr-0 md:pl-4'><img src={searchIcon} alt="search" /></button>
             </div>
+            { user  ?
             <div className="menuWrapper relative hidden md:flex md:w-4/12">
-                <button className='mr-auto'><img src={filter} alt="filter" className='ml-3' /></button>
-                <button onClick={()=>navigate('/my-bag')} className='mr-14'><img src={cart} alt="cart" /></button>
-                <button className='mr-14'><img src={notif} alt="notif" /></button>
-                <button className='mr-14'><img src={message} alt="message" /></button>
+                <button className='hover:opacity-70 mr-auto'><img src={filter} alt="filter" className='ml-3' /></button>
+                <button onClick={()=>navigate('/my-bag')} className='mr-14 hover:opacity-70'><img src={cart} alt="cart" /></button>
+                <button className='hover:opacity-70 mr-14'><img src={notif} alt="notif" /></button>
+                <button className='hover:opacity-70 mr-14'><img src={message} alt="message" /></button>
                 <div className="grid">
-                    <button onClick={()=>menuDekstop === false ? setMenuDekstop(true) : setMenuDekstop(false)}><img src={userIcon} alt="user" className='w-9 h-9' /></button>
+                    <button className='hover:opacity-70' onClick={()=>menuDekstop === false ? setMenuDekstop(true) : setMenuDekstop(false)}><img src={userIcon} alt="user" className='w-9 h-9' /></button>
                     { menuDekstop === true ?
                     <div className="absolute top-14 left-72 border-2 bg-white w-[14rem] p-4 grid font-semibold rounded-lg">
-                        <button onClick={()=>navigate('/profile')} className='w-max ml-auto'>Profile</button>
-                        { token ?
-                        <button onClick={()=>{localStorage.clear(); navigate('/login')}} className='w-max mt-3 ml-auto'>Logout</button>
-                        :
-                        <button onClick={()=>navigate('/login')} className='w-max mt-3 ml-auto'>Login</button>
-                        }
+                        <button className='hover:opacity-50 w-max ml-auto' onClick={()=>navigate('/profile')}>Profile</button>
+                        <button className='hover:opacity-50 w-max mt-3 ml-auto' onClick={()=>{localStorage.clear(); navigate('/login')}}>Logout</button>
                     </div>
                     : null }
                 </div>
             </div>
+            :
+            <div className="wrapper hidden md:flex md:w-4/12">
+                <button onClick={()=>(navigate('/login'))} className='bg-red-600 text-white h-max my-auto py-2 px-16 rounded-full ml-auto mr-3'>Sign In</button>
+                <button onClick={()=>(navigate('/register'))} className='bg-red-600 text-white h-max my-auto py-2 px-16 rounded-full ml-3'>Sign Up</button>
+            </div>
+            }
             {/* dekstop  */}
             {/* mobile */}
             <div className="listMenu md:hidden">
@@ -80,8 +81,8 @@ const Navbar = ({ search, handleSearch, name, value, click }) => {
                         { token ?
                             <div className='grid '>
                                 <div className="flex mt-5 px-5">
-                                    <input onChange={search} name={name} value={value} type="text" className='py-2 outline-none w-11/12 px-4 rounded-bl-full rounded-tl-full border-l-2 border-b-2 border-t-2' placeholder='Search something.....' />
-                                    <button onClick={handleSearch} className='py-2 border-r-2 w-1/12 border-b-2 border-t-2 rounded-br-full rounded-tr-full pr-3'><img src={searchIcon} alt="search" /></button>
+                                    <input onChange={(e)=>setKey(e.target.value)} name='key' value={key} type="text" className='py-2 outline-none w-11/12 px-4 rounded-bl-full rounded-tl-full border-l-2 border-b-2 border-t-2' placeholder='Search something.....' />
+                                    <button onClick={()=>navigate(`/search/${key}`)} className='py-2 border-r-2 w-1/12 border-b-2 border-t-2 rounded-br-full rounded-tr-full pr-3'><img src={searchIcon} alt="search" /></button>
                                 </div>
                                 <button onClick={()=>navigate('/profile')} className='text-md w-max ml-auto pr-8 font-semibold mt-5 opacity-70 hover:opacity-100 flex'>
                                     <p className='my-auto mr-9'>Profile</p>
@@ -117,21 +118,16 @@ const Navbar = ({ search, handleSearch, name, value, click }) => {
                                 </button>
                             </div>
                             :
-                            <div className='grid'>
-                                <button onClick={()=>navigate('/login')} className='text-md font-semibold mt-5 opacity-70 hover:opacity-100'>Login</button>
-                                <button className='text-md font-semibold mt-5 opacity-70 hover:opacity-100'>Register</button>
+                            <div className='grid mb-5'>
+                                <button onClick={()=>navigate('/login')} className='text-md font-semibold mt-5 opacity-70 hover:opacity-100'>Sign In</button>
+                                <button className='text-md font-semibold mt-5 opacity-70 hover:opacity-100'>Sign Up</button>
                             </div>
                         }
                     </div>
-                    {/* :
-                    null
-                } */}
+
             </div>
             {/* mobile  */}
         </div>
-        :
-        <Loading />
-        }
     </div>
   )
 }

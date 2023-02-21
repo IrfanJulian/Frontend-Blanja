@@ -12,40 +12,42 @@ const Mybag = () => {
     const navigate = useNavigate()
     const { bag } = useSelector((state)=>state.bag)
     const [qty, setQty] = useState(1)
-    const [price, setPrice] = useState(1)
-    const [choose, setChoose] = useState(null)
-    console.log(bag);
 
     useEffect(()=>{
         dispatch(getMybag())
-        setQty(bag.qty)
-        setPrice(bag.price)
-    }, [dispatch, bag.qty, bag.price])
+    }, [dispatch])
 
-    const handleChoose = (item, e) => {
-        if(e.target.checked === true){
-            setChoose({
-                ...choose,
-                item
-            })
-        }else{
-            return choose
-        }
-    }
+    const handleCheckout = () => {
+      Swal.fire({
+          title: 'Checkout now?',
+          text: "Checkout will proccess!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate('/checkout')
+          }
+        })
+  }
 
   return (
-    <div className='py-10' id='font-custom'>
-        <Navbar />
-        { bag ? 
+    <div className='container mx-auto py-28' id='font-custom'>
+      { bag ?
         <div className="wrapper">
-            <p className='text-xl my-5 font-semibold'>Cart Page</p>
-            { bag.map((item)=>
-                <CardBag key={item.id} className='mt-5' name={item.name} onClick1={()=>setQty((current)=>current-1)} onClick2={()=>setQty((current)=>current=1)} onChange={handleChoose(item.id)} qty={qty} price={price * qty} />
-            )}
-        </div>
-        :
-        <p className='text-lg font-semibold'>Choose some item and then add to your bag</p>
-        }
+            <p className='text-xl md:text-4xl my-5 md:my-20 font-medium'>My Bag</p>
+              <div className="block md:grid md:grid-cols-2 md:gap-5">
+                  { bag.map((item)=>
+                      <CardBag className='mt-5' key={item.id} onClickCheckout={handleCheckout} onClick1={()=>setQty((current)=>current-1)} onClick2={()=>setQty((current)=>current+1)} name={item.product_name} img={item.photo} brand={item.brand} qty={qty} price={item.price * qty} />
+                      )}
+              </div>
+          </div>
+          :
+          <p className='text-lg font-semibold'>Choose some item and then add to your bag</p>
+      }
+      <Navbar />
     </div>
   )
 }

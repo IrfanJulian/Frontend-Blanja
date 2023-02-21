@@ -5,22 +5,26 @@ import Swal from 'sweetalert2'
 import logo from '../../../assets/logo-blanja.png'
 import Button from '../../../component/base/Button'
 import Input from '../../../component/base/Input'
+import Loading from '../../../component/base/Loading'
 
 const OTP = () => {
 
     const navigate = useNavigate()
     const {email} = useParams()
     const [otp, setOtp] = useState('')
+    const [loading, setLoading] = useState(false)
     console.log(otp);
 
     const handleVerification = async(e) => {
         e.preventDefault()
+        setLoading(true)
         try {
             await axios({
                 method: 'PUT',
                 url: `${process.env.REACT_APP_API}user/verify/${email}`,
                 data: {otp}
             })
+            setLoading(false)
             Swal.fire({
                 icon: 'success',
                 title: 'Register success',
@@ -33,12 +37,18 @@ const OTP = () => {
               title: 'Verification failed',
               text: error
             })
-            
+            setLoading(false)
         }
     }
 
   return (
     <div className='py-10 grid h-screen' id='font-custom'>
+        { loading === true ? 
+        <div className="wrapper w-screen">
+            <div className='wrapper absolute top-0 left-0 bg-black opacity-40 h-screen w-full'></div>
+            <Loading className='my-auto mx-auto' />
+        </div>
+      : null }
         <div className="wrapper w-3/4 h-max my-auto lg:w-1/2 mx-auto">
             <img src={logo} alt="logo" className='mx-auto' />
             <p className='text-md lg:text-xl font-bold my-10'>Insert OTP code.</p>

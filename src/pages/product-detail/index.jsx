@@ -12,10 +12,9 @@ import Loading from '../../component/base/Loading'
 
 const ProductDetail = () => {
 
-    const {id} = useParams()
-    const token = localStorage.getItem('token')
     const idUser = localStorage.getItem('id')
-    const [total] = useState(0)
+    const userName = localStorage.getItem('name')
+    const {id} = useParams()
     const [search, setSearch] = useState('')
     const [qty, setQty] = useState(1)
     const [data, setData] = useState()
@@ -60,14 +59,14 @@ const ProductDetail = () => {
                     await axios({
                         method: 'POST',
                         url: `${process.env.REACT_APP_API}mybag`,
-                        headers: {
-                            authorization: `Bearer ${token}`
-                        },
                         data: {
-                            id_user: idUser,
-                            id_product: id,
-                            qty,
-                            total
+                            user_id: idUser,
+                            user_name: userName,
+                            product_id: id,
+                            product_name: data.name,
+                            price: data.price,
+                            photo: data.photo,
+                            brand: data.brand
                         }
                     })
                     Swal.fire('Add to cart success!', '', 'success')
@@ -145,7 +144,9 @@ const ProductDetail = () => {
             { product ?
             <div className="grid md:grid-cols-5 md:gap-12 md:px-8">
                 { product.map((item)=>
-                <CardProducts photo={item.photo} tittle={item.name} price={item.price} brand={item.brand} />
+                <Link key={item.id} to={`/product-detail/${item.id}`}>
+                    <CardProducts photo={item.photo} tittle={item.name} price={item.price} brand={item.brand} />
+                </Link>
                 )}
             </div>
             : 

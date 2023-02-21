@@ -1,56 +1,56 @@
 import axios from 'axios'
 import React, {useState, useEffect} from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
-import Navbar from '../../components/base/navbar'
-import ProductList from '../../components/base/product-list'
+import { Link, useParams } from 'react-router-dom'
+import CardProducts from '../../component/base/CardProducts'
+import Navbar from '../../component/module/Navbar'
+import notfound from '../../assets/404.png'
 
 const Search = () => {
 
-    const navigate = useNavigate()
-    const {id} = useParams()
-    const [data, setData] = useState()
-    const [keyword, setKeyword] = useState('')
-    const handleChange = (e) => {
-        setKeyword(e.target.value)
+  const {key} = useParams()
+  const [data, setData] = useState(null)
+  // const [length, setLength] = useState()
+  console.log(data);
+  
+  useEffect(()=>{
+    const getSearch = async() => {
+      try {
+        const res = await axios({
+          method: 'GET',
+          url: `${process.env.REACT_APP_API}products?search=${key}`
+        })
+        setData(res.data.data)
+      } catch (error) {
+        console.log(error);
+      }
     }
-
-    const clickSearch = async(e) => {
-        e.preventDefault()
-        navigate(`/search/${keyword}`)
-    }
-
-    useEffect(()=>{
-        const getSearch = async() => {
-            try {
-                const res = await axios({
-                    method: 'GET',
-                    url: `${process.env.REACT_APP_API}/products?search=${id}`
-                })
-                setData(res.data.data)
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        getSearch()
-    }, [id])
+    getSearch()
+  }, [key])
 
   return (
-    <div>
-        <div className="shadow-xl shadow-gray-200">
-            <Navbar onSubmit={clickSearch} value={keyword} onChange={handleChange} name='keywood' type='submit' />
-        </div>
-        <div className='container tittle mx-auto'>
-            <p className='text-3xl text-start font-semibold my-10'>Result for {id}</p>
-        </div>
-        <div className="container mx-auto">
-            <div className='grid grid-cols-5 gap-12'>
-                { data ? data.map(item =>
-                <Link to={`/product-detail/${item.id}`} key={item.id}>
-                    <ProductList name={item.name} price={item.price} brand={item.brand} photo={item.photo} />
-                </Link>
-                ) : null }
+    <div className='container mx-auto px-4' id='font-custom'>
+      <div className="wrapper mt-28 md:mt-44">
+        <p className='text-xl md:text-4xl my-5 md:my-20 font-medium text-left'>Result For {key} ...</p>
+        {/* <div className=''> */}
+        { data !== null && data.length >= 1 ?
+          <div className="grid md:grid-cols-5 md:gap-12 md:px-8 h-screen">
+            { data.map((item)=>
+            <Link to={`/detail-product/${item.id}`} key={item.id}>
+              <CardProducts photo={item.photo} tittle={item.tittle} price={item.price} brand={item.brand} />
+            </Link>
+            )}
+          </div>
+          :
+          <div className="grid -mt-40 h-screen">
+            <div className="wrap h-max my-auto">
+              <p className='text-xl md:text-2xl'>Product Not Found</p>
+              <img src={notfound} alt="notfound" className='md:w-1/4 md:mx-auto' />
             </div>
-        </div>
+          </div>
+        }
+        {/* </div> */}
+      </div>
+      <Navbar />
     </div>
   )
 }

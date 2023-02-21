@@ -7,7 +7,7 @@ const bagReducer = (state = initialState, action) => {
         case 'GET_MYBAG_SUCCESS':
             return {
                 ...state,
-                bag: action.payload.data.data[0]
+                bag: action.payload.data.data
             }
     
         default:

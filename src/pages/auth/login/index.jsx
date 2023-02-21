@@ -5,10 +5,12 @@ import Swal from 'sweetalert2'
 import logo from '../../../assets/logo-blanja.png'
 import Button from '../../../component/base/Button'
 import Input from '../../../component/base/Input'
+import Loading from '../../../component/base/Loading'
 
 const Login = () => {
     
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
     const [show, setShow] = useState(false)
     const [form, setForm] = useState({
         email: '',
@@ -25,6 +27,7 @@ const Login = () => {
     const handleLogin = async(e) => {
         e.preventDefault()
         try {
+            setLoading(true)
             const res = await axios({
                 method: 'POST',
                 url: `${process.env.REACT_APP_API}user/login`,
@@ -35,6 +38,7 @@ const Login = () => {
             localStorage.setItem('id', res.data.data.id)
             localStorage.setItem('name', res.data.data.name)
             localStorage.setItem('role', res.data.data.role)
+            setLoading(false)
             Swal.fire({
                 icon: 'success',
                 title: 'Register success',
@@ -47,11 +51,18 @@ const Login = () => {
                 title: 'Register failed',
                 text: error
               })
+              setLoading(false)
         }
     }
 
   return (
     <div className='py-10 grid h-screen' id='font-custom'>
+        { loading === true ? 
+            <div className="wrapper w-screen">
+                <div className='wrapper absolute top-0 left-0 bg-black opacity-40 h-screen w-full'></div>
+                <Loading className='my-auto mx-auto' />
+            </div>
+        : null }
         <div className="wrapper w-3/4 h-max my-auto lg:w-1/2 mx-auto">
             <img src={logo} alt="logo" className='mx-auto' />
             <p className='text-md lg:text-xl font-bold my-10'>Login whit your account.</p>

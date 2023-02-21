@@ -1,8 +1,6 @@
 import axios from "axios";
 
-const id = localStorage.getItem('id')
-
-export const getDataUser = () => async(dispatch) => {
+export const getDataUser = (id) => async(dispatch) => {
     try {
         const res = await axios({
             method: 'GET',
