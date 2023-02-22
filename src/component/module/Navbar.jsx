@@ -19,6 +19,7 @@ const Navbar = ({ search }) => {
     const { user } = useSelector((state)=>state.user)
     const [menu, setMenu] = useState(false)
     const [key, setKey] = useState('')
+    const image = user.photo
 
     const [menuDekstop, setMenuDekstop] = useState(false)
 
@@ -35,10 +36,10 @@ const Navbar = ({ search }) => {
                 </Link>
             </div>
             {/* dekstop  */}
-            <div className="searchWrapper hidden md:w-6/12 md:flex pr-3">
+            <form onSubmit={()=>navigate(`/search/${key}`)} className="searchWrapper hidden md:w-6/12 md:flex pr-3">
                 <input onChange={(e)=>setKey(e.target.value)} name='key' value={key} type="text" className='py-2 outline-none w-11/12 px-4 rounded-bl-full rounded-tl-full border-l-2 border-b-2 border-t-2' placeholder='Search something.....' />
-                <button onClick={()=>navigate(`/search/${search}`)} className='py-2 border-r-2 w-1/12 border-b-2 border-t-2 rounded-br-full rounded-tr-full pr-3 md:pr-0 md:pl-4'><img src={searchIcon} alt="search" /></button>
-            </div>
+                <button type='sunmit' className='py-2 border-r-2 w-1/12 border-b-2 border-t-2 rounded-br-full rounded-tr-full pr-3 md:pr-0 md:pl-4'><img src={searchIcon} alt="search" /></button>
+            </form>
             { user  ?
             <div className="menuWrapper relative hidden md:flex md:w-4/12">
                 <button className='hover:opacity-70 mr-auto'><img src={filter} alt="filter" className='ml-3' /></button>
@@ -46,7 +47,9 @@ const Navbar = ({ search }) => {
                 <button className='hover:opacity-70 mr-14'><img src={notif} alt="notif" /></button>
                 <button className='hover:opacity-70 mr-14'><img src={message} alt="message" /></button>
                 <div className="grid">
-                    <button className='hover:opacity-70' onClick={()=>menuDekstop === false ? setMenuDekstop(true) : setMenuDekstop(false)}><img src={userIcon} alt="user" className='w-9 h-9' /></button>
+                    <button className='hover:opacity-70' onClick={()=>menuDekstop === false ? setMenuDekstop(true) : setMenuDekstop(false)}>
+                        <img src={image && image.length !== 0 ? user.photo : userIcon} alt="user" className='w-12 h-12 rounded-full' />
+                    </button>
                     { menuDekstop === true ?
                     <div className="absolute top-14 left-72 border-2 bg-white w-[14rem] p-4 grid font-semibold rounded-lg">
                         <button className='hover:opacity-50 w-max ml-auto' onClick={()=>navigate('/profile')}>Profile</button>
@@ -80,10 +83,10 @@ const Navbar = ({ search }) => {
                     <div className={`duration-500 absolute top-0 left-0 bg-white shadow-lg w-full transition-all ${menu === true ? 'mt-24' : '-mt-[500px]' }`}>
                         { token ?
                             <div className='grid '>
-                                <div className="flex mt-5 px-5">
+                                <form onSubmit={()=>navigate(`/search/${key}`)} className="flex mt-5 px-5">
                                     <input onChange={(e)=>setKey(e.target.value)} name='key' value={key} type="text" className='py-2 outline-none w-11/12 px-4 rounded-bl-full rounded-tl-full border-l-2 border-b-2 border-t-2' placeholder='Search something.....' />
-                                    <button onClick={()=>navigate(`/search/${key}`)} className='py-2 border-r-2 w-1/12 border-b-2 border-t-2 rounded-br-full rounded-tr-full pr-3'><img src={searchIcon} alt="search" /></button>
-                                </div>
+                                    <button type='submit' className='py-2 border-r-2 w-1/12 border-b-2 border-t-2 rounded-br-full rounded-tr-full pr-3'><img src={searchIcon} alt="search" /></button>
+                                </form>
                                 <button onClick={()=>navigate('/profile')} className='text-md w-max ml-auto pr-8 font-semibold mt-5 opacity-70 hover:opacity-100 flex'>
                                     <p className='my-auto mr-9'>Profile</p>
                                     <div className="text-white p-2 bg-red-600 rounded-full">

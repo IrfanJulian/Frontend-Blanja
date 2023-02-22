@@ -25,7 +25,7 @@ const Carousel = ({ className }) => {
   return (
     <div className={className}>
         <div className="container mx-auto flex">
-            <button onClick={handlePrev} className='h-max w-max my-auto ml-auto'><img className='w-3/4 h-3/4 ml-auto md:w-full md:h-full' src={left} alt="left" /></button>
+            <button onClick={handlePrev} className='h-max w-max my-auto ml-auto'><img className='w-3/4 h-3/4 hover:opacity-70 ml-auto md:w-full md:h-full' src={left} alt="left" /></button>
             { show === 1 ?
             <img src={c1} alt='carousel' className='w-7/12 h-7/12 md:w-5/12 mh:h-5/12 shadow-xl rounded-lg' />
             : show === 2 ?
@@ -35,7 +35,7 @@ const Carousel = ({ className }) => {
             :
             <img src={c4} alt='carousel' className='w-7/12 h-7/12 md:w-5/12 mh:h-5/12 shadow-xl rounded-lg' />
             }
-            <button onClick={handleNext} className='h-max w-max my-auto mr-auto'><img className='w-3/4 h-3/4 md:w-full md:h-full' src={right} alt="right" /></button>
+            <button onClick={handleNext} className='h-max w-max my-auto mr-auto'><img className='w-3/4 h-3/4 hover:opacity-70 md:w-full md:h-full' src={right} alt="right" /></button>
         </div>
     </div>
   )

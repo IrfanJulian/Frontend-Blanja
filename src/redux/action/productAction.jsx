@@ -11,4 +11,17 @@ export const getProduct = () => async(dispatch) => {
         dispatch({ type: 'GET_PRODUCT_FAILED' })
         console.log(error);
     }
-}
+};
+
+export const getMyProduct = (id) => async(dispatch) => {
+    try {
+        const res = await axios({
+            method: `GET`,
+            url: `${process.env.REACT_APP_API}products/myproduct/${id}`
+        })
+        dispatch({ type: 'GET_MYPRODUCT_SUCESS', payload: res })
+    } catch (error) {
+        dispatch({ type: 'GET_MYPRODUCT_FAILED' })
+        console.log(error);
+    }
+};

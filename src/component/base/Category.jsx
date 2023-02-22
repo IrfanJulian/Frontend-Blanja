@@ -15,57 +15,57 @@ const Category = ({className}) => {
     <div className={className} id='font-custom' >
         <div className="container mx-auto">
             <p className='font-semibold text-lg md:text-3xl md:text-start'>Category</p>
-            <div className="wrapper md:mt-10 text-xs md:text-xl my-5 grid grid-cols-4 md:gap-28 gap-3 px-4">
-                <div className="card shadow-xl p-1 border-2 rounded-xl">
+            <div className="wrapper md:mt-10 text-xs md:text-xl my-5 grid grid-cols-5 md:gap-10 gap-3 px-4">
+                <div className="card shadow-xl hover:opacity-70 p-1 border-2 rounded-xl">
                     <Link to={''}>
                         <img src={icon1} className='h-3/4 w-3/4 mx-auto' alt="category1" />
                         <p className='font-semibold'>dress</p>
                     </Link>
                 </div>
-                <div className="card shadow-xl p-1 border-2 rounded-xl">
+                <div className="card shadow-xl hover:opacity-70 p-1 border-2 rounded-xl">
                     <Link to={''}>
                         <img src={icon2} className='h-3/4 w-3/4 mx-auto' alt="category1" />
                         <p className='font-semibold'>jacket</p>
                     </Link>
                 </div>
-                <div className="card shadow-xl p-1 border-2 rounded-xl">
+                <div className="card shadow-xl hover:opacity-70 p-1 border-2 rounded-xl">
                     <Link to={''}>
                         <img src={icon3} className='h-3/4 w-3/4 mx-auto' alt="category1" />
                         <p className='font-semibold'>glasses</p>
                     </Link>
                 </div>
-                <div className="card shadow-xl p-1 border-2 rounded-xl">
+                <div className="card shadow-xl hover:opacity-70 p-1 border-2 rounded-xl">
                     <Link to={''}>
                         <img src={icon4} className='h-3/4 w-3/4 mx-auto' alt="category1" />
                         <p className='font-semibold'>pants</p>
                     </Link>
                 </div>
-                <button className='hidden md:block w-max h-max text-xl font-bold -mt-10'>Show More Categories...</button>
-                <div className="card shadow-xl md:hidden p-1 border-2 rounded-xl">
-                    <Link to={''}>
-                        <img src={icon5} className='h-3/4 w-3/4 mx-auto' alt="category1" />
-                        <p className='font-semibold'>watch</p>
-                    </Link>
-                </div>
-                <div className="card shadow-xl md:hidden p-1 border-2 rounded-xl">
+                <div className="card shadow-xl hover:opacity-70 p-1 border-2 rounded-xl">
                     <Link to={''}>
                         <img src={icon6} className='h-3/4 w-3/4 mx-auto' alt="category1" />
                         <p className='font-semibold'>shirt</p>
                     </Link>
                 </div>
-                <div className="card shadow-xl md:hidden p-1 border-2 rounded-xl">
+                <button className='hidden md:block w-max h-max text-xl font-bold md:mt-0 hover:opacity-70'>Show More Categories...</button>
+                <div className="card shadow-xl hover:opacity-70 md:hidden p-1 border-2 rounded-xl">
+                    <Link to={''}>
+                        <img src={icon5} className='h-3/4 w-3/4 mx-auto' alt="category1" />
+                        <p className='font-semibold'>watch</p>
+                    </Link>
+                </div>
+                <div className="card shadow-xl hover:opacity-70 md:hidden p-1 border-2 rounded-xl">
                     <Link to={''}>
                         <img src={icon7} className='h-3/4 w-3/4 mx-auto' alt="category1" />
                         <p className='font-semibold'>suit</p>
                     </Link>
                 </div>
-                <div className="card shadow-xl md:hidden p-1 border-2 rounded-xl">
+                <div className="card shadow-xl hover:opacity-70 md:hidden p-1 border-2 rounded-xl">
                     <Link to={''}>
                         <img src={icon8} className='h-3/4 w-3/4 mx-auto' alt="category1" />
                         <p className='font-semibold'>pants</p>
                     </Link>
                 </div>
-                <div className="card shadow-xl md:hidden p-1 border-2 rounded-xl">
+                <div className="card shadow-xl hover:opacity-70 md:hidden p-1 border-2 rounded-xl">
                     <Link to={''}>
                         <img src={icon9} className='h-3/4 w-3/4 mx-auto' alt="category1" />
                         <p className='font-semibold'>shoes</p>

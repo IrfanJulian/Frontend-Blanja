@@ -17,6 +17,7 @@ const Profile = () => {
   const { user } = useSelector((state)=>state.user)
   const dispatch = useDispatch()
   const [show, setShow] = useState('my-account')
+  console.log(show);
   const [menu, setMenu] = useState(false)
   const [menu2, setMenu2] = useState(false)
   const [openModal, setOpenModal] = useState(false)

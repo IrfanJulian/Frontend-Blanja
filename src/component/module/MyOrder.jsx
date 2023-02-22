@@ -1,7 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getCheckout } from '../../redux/action/checkoutAction'
 import Card from '../base/Card'
 
 const MyOrder = ({ className }) => {
+
+  const id = localStorage.getItem('id')
+  const dispatch = useDispatch()
+  const { checkout } = useSelector((state)=>state.checkout)
+
+  console.log(checkout);
+  useEffect(()=>{
+    dispatch(getCheckout(id))
+  }, [dispatch, id])
+
   return (
     <div className={className}>
         <div className="container md:my-10 mx-auto px-5">

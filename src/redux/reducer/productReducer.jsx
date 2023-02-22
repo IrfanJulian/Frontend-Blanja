@@ -1,5 +1,6 @@
 const initialState = {
-    product: []
+    product: [],
+    myProduct: []
 }
 
 const productReducer = ( state = initialState, action ) => {
@@ -8,7 +9,12 @@ const productReducer = ( state = initialState, action ) => {
             return{
                 ...state,
                 product: action.payload.data.data
-            }
+            };
+        case 'GET_MYPRODUCT_SUCESS':
+            return{
+                ...state,
+                myProduct: action.payload.data.data
+            };
     
         default:
             return state;

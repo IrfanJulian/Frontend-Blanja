@@ -27,7 +27,7 @@ const Home = () => {
           <p className='text-xl md:text-3xl font-semibold md:text-left my-10 md:mb-10'>New Products</p>
           <div>
             { product ?
-              <div className="grid md:grid-cols-5 md:gap-12 md:px-8">
+              <div className="grid md:grid-cols-5 md:gap-12 px-20 md:px-8">
             { product.length !== 0 ? product.map((item)=>
             <Link key={item.id} to={`/product-detail/${item.id}`}>
               <CardProducts photo={item.photo} tittle={item.name} price={item.price} brand={item.brand} />

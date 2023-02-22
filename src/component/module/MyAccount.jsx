@@ -13,7 +13,6 @@ const MyAccount = ({ className }) => {
     const dispatch = useDispatch()
     const [disabledEdit, setDisabledEdit] = useState(false)
     const {user} = useSelector((state)=>state.user)
-    const [data, setData] = useState('')
     const [loading, setLoading] = useState(false)
     const [image, setImage] = useState('')
     const [photo, setPhoto] = useState([])
@@ -33,7 +32,6 @@ const MyAccount = ({ className }) => {
         const getPhoto = async() => {
             try {
                 const res = await axios.get(`${process.env.REACT_APP_API}user/${id}`)
-                setData(res.data.data[0])
                 setImage(res.data.data[0].photo)
             } catch (error) {
                 console.log(error);
@@ -74,6 +72,7 @@ const MyAccount = ({ className }) => {
                     data: formData
                 })
             setLoading(false)
+            window.location.reload()
               Swal.fire(
                 'Success!',
                 'Photo has been change.',
@@ -116,14 +115,14 @@ const MyAccount = ({ className }) => {
 
   return (
     <div className={className}>
-        { user ?
-        <div className="container mx-auto">
         { loading === true ? 
-        <div className="wrapper w-screen">
-            <div className='wrapper absolute top-0 left-0 bg-black opacity-40 h-[80rem] w-full'></div>
-            <Loading className='my-auto mx-auto' />
+        <div className="wrapper grid">
+            <div className='wrapper fixed top-0 left-0 h-screen justify-center w-screen bg-black opacity-40 overflow-auto'></div>
+            <Loading />
         </div>
         : null }
+        { user ?
+        <div className="container mx-auto">
         <p className='text-2xl md:text-4xl font-semibold'>Account Setting</p>
             <div className="wrapperImage md:hidden">
                 { image && image.length !== 0 ?
@@ -196,7 +195,7 @@ const MyAccount = ({ className }) => {
                     <div className="w-3/4 mx-auto mt-5">
                         <p className='text-lg md:text-left md:text-xl text-center mb-2'>Gender</p>
                         { disabledEdit === true ?
-                        <select name='gender' defaultValue={user.gender} onChange={handleChange} className='text-lg md:w-1/2 md:text-xl text-left py-2 mb-2 border-4 pr-8 pl-2 rounded-md'>
+                        <select name='gender' value={form.gender} onChange={handleChange} className='text-lg md:w-1/2 md:text-xl text-left py-2 mb-2 border-4 pr-8 pl-2 rounded-md'>
                             <option value="">Select Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
@@ -210,9 +209,9 @@ const MyAccount = ({ className }) => {
                     <div className="w-3/4 mx-auto mt-5">
                         <p className='text-lg md:text-left md:text-xl text-center mb-2'>Date of Birth</p>
                         { disabledEdit === true ?
-                        <input name='birth' type="date" onClick={handleChange} className='text-lg md:w-1/2 py-2 md:text-xl mb-2 border-4 px-2 outline-none rounded-md' />
+                        <input name='birth' type="date" value={form.birth} onClick={handleChange} className='text-lg md:w-1/2 py-2 md:text-xl mb-2 border-4 px-2 outline-none rounded-md' />
                         :
-                        <div className='text-lg mx-auto md:mx-0 w-max font-semibold md:w-1/2 py-2 md:text-xl mb-2 border-4 px-2 outline-none rounded-md'>
+                        <div className='text-lg mx-auto md:mx-0 w-max font-semibold md:w-1/2 py-2 md:text-xl mb-2 border-4 px-2 outline-none rounded-md md:text-left'>
                             <p>{user.birth}</p>
                         </div>
                         }

@@ -19,6 +19,7 @@ const ProductDetail = () => {
     const [qty, setQty] = useState(1)
     const [data, setData] = useState()
     const { product } = useSelector((state)=>state.product)
+    const seller_id = product.id_seller
     const dispatch = useDispatch()
 
     const handleSearchProduct = (e) => {
@@ -66,7 +67,8 @@ const ProductDetail = () => {
                             product_name: data.name,
                             price: data.price,
                             photo: data.photo,
-                            brand: data.brand
+                            brand: data.brand,
+                            seller_id,
                         }
                     })
                     Swal.fire('Add to cart success!', '', 'success')
@@ -81,7 +83,7 @@ const ProductDetail = () => {
     }
 
   return (
-    <div className='py-10' id='font-custom'>
+    <div className='py-20 md:py-36' id='font-custom'>
         <Navbar search={(e)=>{setSearch(e.target.value)}} name='search' value={search} handleSearch={handleSearchProduct} />
         { data ? 
         <div>
@@ -135,14 +137,14 @@ const ProductDetail = () => {
             </div>
         </div>
         :
-        <div className='w-full px-20 md:px-0'>
-            <Loading className='mx-auto w-[20rem] h-20rem' />
+        <div className='absolte top-0 left-0'>
+            <Loading />
         </div>
         }
-        <div className="container mx-auto mt-8 md:mt-20 px-7 md:px-0 mb-10">
-            <p className='font-bold text-2xl mb-10 text-left'>Product For You</p> 
+        <div className="container mx-auto mt-8 md:mt-20 md:px-0 mb-10">
+            <p className='font-bold text-2xl mb-10 text-left px-7'>Product For You</p> 
             { product ?
-            <div className="grid md:grid-cols-5 md:gap-12 md:px-8">
+            <div className="grid md:grid-cols-5 md:gap-12 px-20 md:px-8">
                 { product.map((item)=>
                 <Link key={item.id} to={`/product-detail/${item.id}`}>
                     <CardProducts photo={item.photo} tittle={item.name} price={item.price} brand={item.brand} />

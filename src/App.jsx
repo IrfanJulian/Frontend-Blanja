@@ -25,7 +25,7 @@ function App() {
           <Route path='/my-bag' element={<Mybag/>} />
           <Route path='/search/:key' element={<Search/>} />
           <Route path='/product-detail/:id' element={<ProductDetail/>} />
-          <Route path='/checkout' element={<Checkout/>} />
+          <Route path='/checkout/:id' element={<Checkout/>} />
           <Route path='/transaction' element={<Transaction/>} />
         </Routes>
       </BrowserRouter>
