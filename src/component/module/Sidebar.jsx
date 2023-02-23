@@ -1,13 +1,13 @@
 import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import icon from '../../assets/user (2).png'
 import { getDataUser } from '../../redux/action/userAction'
+import ProfilePict from '../base/ProfilePict'
 
 const Sidebar = ({ onAccount, onProduct, onSelling, onOrder, onAccountCustomer, onShippingAddress, className }) => {
 
     const id = localStorage.getItem('id')
-    const [account] = useState(false)
+    const [account, setAccount] = useState(false)
     const {user} = useSelector((state)=>state.user)
     const dispatch = useDispatch()
     const [Product, setProduct] = useState(false)
@@ -32,12 +32,20 @@ const Sidebar = ({ onAccount, onProduct, onSelling, onOrder, onAccountCustomer, 
   }, [id])
 
   return (
-      <div className={className} id='font-custom' > font-semibold
+      <div className={className} id='font-custom' >
         {user ?
-            <div className="wrapeperGlobal my-36 md:my-48 mx-10">
+            <div className="w-3/4 h-screen my-36 md:my-48 mx-10">
               {/* --------------------head--------------------  */}
                 <div className="flex head">
-                  <img src={photo && photo.length >= 1 ? user.photo : icon} alt="pict" className='w-16 h-16 rounded-full' />
+                  { photo && photo.length >= 1 ?
+                    <div className='w-16 h-16'>
+                        <img src={user.photo} alt="user" className='w-16 h-16 rounded-full' />
+                    </div>
+                    :
+                    <div className='w-16 h-16'>
+                        <ProfilePict className='w-16 h-16 rounded-full p-1' icon='w-10 h-10 mt-1' />
+                    </div>
+                  }
                   {/* <img src={user.photo} alt="pict" className='w-16 h-16 rounded-full' /> */}
                   <div className='mx-5 h-max my-auto'>
                     <p className='font-medium text-left'>{user.name}</p>
@@ -46,9 +54,9 @@ const Sidebar = ({ onAccount, onProduct, onSelling, onOrder, onAccountCustomer, 
                 {/* --------------------head--------------------  
 
                 --------------------body--------------------  */}
-                <div className="body mt-10 md:mt-20 ml-3">
+                <div className="body mt-10 ml-3">
 
-                  <div className="account cursor-pointer relative bg-white flex">
+                  <div onClick={()=>account ? setAccount(false) : setAccount(true)} className="account cursor-pointer relative bg-white flex">
                     <div className="icon p-2 rounded-full bg-[#456BF3] w-max h-max">
                     { user.role !== 'seller' ?
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white">

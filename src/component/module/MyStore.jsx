@@ -2,9 +2,10 @@ import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
-import icons from '../../assets/user (2).png'
+// import icons from '../../assets/user (2).png'
 import { getDataUser } from '../../redux/action/userAction'
 import Loading from '../base/Loading'
+import ProfilePict from '../base/ProfilePict'
 
 const MyStore = ({ className }) => {
 
@@ -116,7 +117,7 @@ const MyStore = ({ className }) => {
                 <Loading className='my-auto mx-auto' />
             </div>
         : null }
-        <div className="container mx-auto">
+        <div className="container md:pt-20 mx-auto">
             <p className='text-2xl md:text-4xl font-semibold'>Store Setting</p>
             <button onClick={()=>edit === false ? setEdit(true) : setEdit(false)} className={`flex md:hover:opacity-50 w-max ml-auto mr-10 mt-14 cursor-pointer md:text-xl ${edit ? 'text-red-600' : 'text-black'}`}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 md:w-8 md:h-8 h-6">
@@ -128,9 +129,9 @@ const MyStore = ({ className }) => {
             { image && image.length !== 0 ?
                 <img src={image} alt="pict" className='w-[10rem] h-[10rem] mx-auto mt-3 mb-8 rounded-full' />
                 :
-                <img src={icons} alt="pict" className='w-[10rem] h-[10rem] mx-auto mt-3 mb-8' />
+                <ProfilePict className='w-[10rem] h-[10rem] p-3 mb-12' icon='w-24 h-24 mt-3' />
             }
-            { edit ?
+
                 <div className='grid -mt-5'>
                     <div className="flex text-red-600 w-max mx-auto">
                         <p className='ml-auto'>Select image</p>
@@ -141,11 +142,13 @@ const MyStore = ({ className }) => {
                             <input name='photo' type="file" id='img' onChange={(e)=>setPhoto(e.target.files[0])} className='hidden' />
                         </label>
                     </div>
-                    <button onClick={updatePhoto} className='py-2 px-3 w-4/12 mx-auto rounded-full border-2 bg-red-600 text-white font-semibold text-lg md:text-lg mt-5 mb-10'>Save Image</button>
+                    { !edit ?
+                    <button onClick={updatePhoto} className='py-2 px-3 w-4/12 mx-auto rounded-full border-2 bg-red-600 text-white font-semibold text-lg md:text-lg mt-5 mb-10' disabled>Save Image</button>
+                    :
+                    <button onClick={updatePhoto} className='py-2 px-3 w-4/12 mx-auto rounded-full border-2 bg-red-600 opacity-50 text-white font-semibold text-lg md:text-lg mt-5 mb-10'>Save Image</button>
+                    }
                 </div>
-            :
-            null
-            }
+
             </div>
             <div className="md:flex">
                 { user ?
@@ -192,28 +195,29 @@ const MyStore = ({ className }) => {
                     </div>
                 </div>
                 : null }
-                <div className="hidden md:block wrapper h-max my-auto">
+                <div className="hidden md:block wrapper h-max mt-20">
                     { image && image.length !== 0 ?
-                        <img src={image} alt="pict" className='w-[10rem] h-[10rem] mx-auto mt-3 mb-8 rounded-full' />
+                        <img src={image} alt="pict" className='w-[18rem] h-[18rem] mx-auto mb-8 rounded-full' />
                         :
-                        <img src={icons} alt="pict" className='w-[10rem] h-[10rem] mx-auto mt-3 mb-8' />
+                        <ProfilePict className='w-[10rem] h-[10rem] p-3 mb-12' icon='w-24 h-24' />
                     }
-                    { edit ?
+
                         <div className='grid -mt-5'>
-                            <div className="flex text-red-600 w-max mx-auto">
-                                <p className='ml-auto'>Select image</p>
-                                <label htmlFor='img' className='ml-3 cursor-pointer'>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <div className="flex text-red-600 hover:opacity-50 w-max mx-auto">
+                                <label htmlFor='img' className='ml-3 cursor-pointer flex space-x-2'>
+                                    <p className='ml-auto text-xl my-auto'>Select image</p>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                     </svg>
                                     <input name='photo' type="file" id='img' onChange={(e)=>setPhoto(e.target.files[0])} className='hidden' />
                                 </label>
                             </div>
-                            <button onClick={updatePhoto} className='py-2 px-3 mx-auto rounded-full border-2 bg-red-600 text-white font-semibold text-lg md:text-lg mt-5 mb-10'>Save Image</button>
+                            { edit ?
+                            <button onClick={updatePhoto} className='py-2 text-xl px-20 mx-auto rounded-full border-2 opacity-50 bg-red-600 text-white font-semibold mt-5 mb-10' disabled>Save Image</button>
+                            :
+                            <button onClick={updatePhoto} className='py-2 text-xl px-20 mx-auto rounded-full border-2 hover:opacity-80 bg-red-600 text-white font-semibold mt-5 mb-10'>Save Image</button>
+                            }
                         </div>
-                    :
-                    null
-                    }
                     </div>
                 </div>
             <button onClick={handleSubmit} className={`${edit ? 'bg-red-600 hover:opacity-70' : 'bg-red-300'} text-white py-2 px-20 rounded-full text-xl mb-10 font-semibold`} disabled={edit ? false : true}>Save</button>

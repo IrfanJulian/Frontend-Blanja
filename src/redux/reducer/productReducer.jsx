@@ -1,6 +1,7 @@
 const initialState = {
     product: [],
-    myProduct: []
+    myProduct: [],
+    pagination: {}
 }
 
 const productReducer = ( state = initialState, action ) => {
@@ -8,12 +9,14 @@ const productReducer = ( state = initialState, action ) => {
         case 'GET_PRODUCT_SUCESS':
             return{
                 ...state,
-                product: action.payload.data.data
+                product: action.payload.data.data,
+                pagination: action.payload.data.pagination
             };
         case 'GET_MYPRODUCT_SUCESS':
             return{
                 ...state,
-                myProduct: action.payload.data.data
+                myProduct: action.payload.data.data,
+                pagination: action.payload.data.pagination
             };
     
         default:

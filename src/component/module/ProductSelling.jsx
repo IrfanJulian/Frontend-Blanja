@@ -16,6 +16,7 @@ const ProductSelling = () => {
     brand: '',
     condition: ''
   })
+  console.log(form);
 
   const [loading, setLoading] = useState(false)
   const [photo, setPhoto] = useState([])
@@ -55,6 +56,7 @@ const ProductSelling = () => {
         title: 'Success...',
         text: 'Add product success'
       })
+      window.location.reload()
     } catch (error) {
       setLoading(false)
       Swal.fire({
@@ -95,6 +97,7 @@ const ProductSelling = () => {
           <div className="category mt-5">
             <p className='text-left md:text-xl md:font-medium md:mb-1'>Category</p>
             <select name='category' value={form.category} onChange={handleChange} className="name py-2 px-5 border-2 rounded-md w-full">
+              <option value="" disabled>Select Category</option>
               <option value="1">Shirt</option>
               <option value="2">Jacket</option>
               <option value="3">Hoodie</option>
@@ -105,11 +108,13 @@ const ProductSelling = () => {
               <option value="8">Watch</option>
               <option value="9">Shoes</option>
               <option value="10">Underwear</option>
+              <option value="11">Underwear</option>
             </select>
           </div>
           <div className="category mt-5">
             <p className='text-left md:text-xl md:font-medium md:mb-1'>Condition</p>
             <select name='condition' value={form.condition} onChange={handleChange} className="name py-2 px-5 border-2 rounded-md w-full">
+              <option value="" disabled>Select Condition</option>
               <option value="new">New</option>
               <option value="second">Second</option>
             </select>
@@ -124,7 +129,7 @@ const ProductSelling = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-40 h-32 opacity-30 mx-auto">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                 </svg>
-                <p className='font-semibold text-lg opacity-50'>Click Here to Add some Image</p>
+                <p className='font-semibold text-lg opacity-50'>Just allow JPG or PNG File!</p>
             </label>
             <input name='photo' onChange={(e)=>setPhoto(e.target.files[0])} type="file" id='img' className='hidden' />
           </div>

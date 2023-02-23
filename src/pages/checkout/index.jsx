@@ -36,19 +36,19 @@ const Checkout = () => {
             try {
                 const res = await axios.get(`${process.env.REACT_APP_API}mybag/detail/${id}`)
                 setData(res.data.data[0])
-                console.log(res);
             } catch (error) {
                 console.log(error);
             }
         }
         getBag()
     }, [id])
+    console.log(data);
 
     const postCheckout = (e) => {
         e.preventDefault()
         Swal.fire({
-            title: 'Are you sure want to change data?',
-            text: "Your data will change",
+            title: 'Are you sure data with this data?',
+            text: "Payment will proccess",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#000000',

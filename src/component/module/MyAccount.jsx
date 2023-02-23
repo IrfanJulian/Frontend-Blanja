@@ -2,9 +2,9 @@ import axios from 'axios'
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
-import icons from '../../assets/user (1).png'
 import { getDataUser } from '../../redux/action/userAction'
 import Loading from '../base/Loading'
+import ProfilePict from '../base/ProfilePict'
 
 const MyAccount = ({ className }) => {
 
@@ -18,7 +18,6 @@ const MyAccount = ({ className }) => {
     const [photo, setPhoto] = useState([])
     const [form, setForm] = useState({
         name: '',
-        email: '',
         phone_number: '',
         gender: '',
         birth: ''
@@ -104,6 +103,7 @@ const MyAccount = ({ className }) => {
                     }
                 })
                 setLoading(false)
+                window.location.reload()
               Swal.fire(
                 'Success!',
                 'Data has been change.',
@@ -124,11 +124,11 @@ const MyAccount = ({ className }) => {
         { user ?
         <div className="container mx-auto">
         <p className='text-2xl md:text-4xl font-semibold'>Account Setting</p>
-            <div className="wrapperImage md:hidden">
+            <div className="wrapperImage md:hidden mt-7">
                 { image && image.length !== 0 ?
                 <img src={user.photo} alt="pict" className='w-[10rem] h-[10rem] mx-auto mt-10 mb-8 rounded-full' />
                 :
-                <img src={icons} alt="pict" className='w-[10rem] h-[10rem] mx-auto mt-10 mb-8' />
+                <ProfilePict className='w-[10rem] h-[10rem] p-3 mb-12' icon='w-24 h-24 mt-3' />
                 }
                 { disabledEdit === true ?
                     <div className='grid -mt-5'>
@@ -172,7 +172,7 @@ const MyAccount = ({ className }) => {
                         // <p type="text" className='border-4 outline-none rounded-md py-2 px-4 w-full text-lg md:text-xl' placeholder='Irfan Julian Store' disabled />
                         }
                     </div>
-                    <div className="w-3/4 mx-auto mt-5">
+                    {/* <div className="w-3/4 mx-auto mt-5">
                         <p className='text-lg md:text-xl text-left mb-2'>Email</p>
                         {disabledEdit === true ?
                         <input name='email' value={form.email} onChange={handleChange} type="text" className='border-4 outline-none rounded-md py-2 px-4 w-full text-lg md:text-xl' placeholder='Insert your email' />
@@ -181,7 +181,7 @@ const MyAccount = ({ className }) => {
                             <p className='text-left'>{user.email}</p>
                         </div>
                         }
-                    </div>
+                    </div> */}
                     <div className="w-3/4 mx-auto mt-5">
                         <p className='text-lg md:text-xl text-left mb-2'>Phone Number</p>
                         { disabledEdit === true ?
@@ -209,7 +209,7 @@ const MyAccount = ({ className }) => {
                     <div className="w-3/4 mx-auto mt-5">
                         <p className='text-lg md:text-left md:text-xl text-center mb-2'>Date of Birth</p>
                         { disabledEdit === true ?
-                        <input name='birth' type="date" value={form.birth} onClick={handleChange} className='text-lg md:w-1/2 py-2 md:text-xl mb-2 border-4 px-2 outline-none rounded-md' />
+                        <input name='birth' type="date" value={form.birth} onChange={handleChange} className='text-lg md:w-1/2 py-2 md:text-xl mb-2 border-4 px-2 outline-none rounded-md' />
                         :
                         <div className='text-lg mx-auto md:mx-0 w-max font-semibold md:w-1/2 py-2 md:text-xl mb-2 border-4 px-2 outline-none rounded-md md:text-left'>
                             <p>{user.birth}</p>
@@ -221,7 +221,7 @@ const MyAccount = ({ className }) => {
                     { image && image.length !== 0 ?
                         <img src={user.photo} alt="pict" className='w-[10rem] h-[10rem] mx-auto mt-10 mb-8 rounded-full' />
                         :
-                        <img src={icons} alt="pict" className='w-[10rem] h-[10rem] mx-auto mt-10 mb-8' />
+                        <ProfilePict className='w-[10rem] h-[10rem] p-3' icon='w-24 h-24 mt-3' />
                     }
                         { disabledEdit === true ?
                         <div className='grid'>
@@ -234,7 +234,7 @@ const MyAccount = ({ className }) => {
                             <button onClick={updatePhoto} className='hover:opacity-80 py-2 px-3 rounded-full border-2 bg-red-600 text-white font-semibold text-lg md:text-lg'>Change Image</button>
                         </div>
                             :
-                            null
+                        null
                         }
                         <button onClick={handleEdit} className={!disabledEdit ? 'flex mx-auto hover:opacity-50 md:hidden text-lg font-semibold mt-10' : 'flex mx-auto hover:opacity-50 md:hidden text-lg font-semibold mt-10 text-red-600'}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={disabledEdit ? "w-6 h-6 text-red-600 mr-1" : "w-6 h-6 mr-1"}>

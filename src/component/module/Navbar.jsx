@@ -5,10 +5,10 @@ import filter from '../../assets/filter.png'
 import cart from '../../assets/cart (2).png'
 import notif from '../../assets/notif.png'
 import message from '../../assets/message.png'
-import userIcon from '../../assets/user (1).png'
 import { useDispatch, useSelector } from 'react-redux'
 import { getDataUser } from '../../redux/action/userAction'
 import { Link, useNavigate } from 'react-router-dom'
+import ProfilePict from '../base/ProfilePict'
 
 const Navbar = () => {
 
@@ -30,7 +30,8 @@ const Navbar = () => {
         }else{
             setImage('')
         }
-    }, [dispatch, id, user])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, id])
 
   return (
     <div className='md:shadow-lg md:py-10 md:fixed-top md:bg-white' id='font-custom'>
@@ -52,9 +53,15 @@ const Navbar = () => {
                 <button className='hover:opacity-70 mr-14'><img src={notif} alt="notif" /></button>
                 <button className='hover:opacity-70 mr-14'><img src={message} alt="message" /></button>
                 <div className="grid">
-                    <button className='hover:opacity-70' onClick={()=>menuDekstop === false ? setMenuDekstop(true) : setMenuDekstop(false)}>
-                        <img src={image && image.length !== 0 ? user.photo : userIcon} alt="user" className='w-12 h-12 rounded-full' />
+                    { image && image.length !== 0 ?
+                    <button onClick={()=>menuDekstop === false ? setMenuDekstop(true) : setMenuDekstop(false)}>
+                        <img src={user.photo} alt="user" className='w-12 h-12 rounded-full' />
                     </button>
+                    :
+                    <div className='hover: opacity- 30 cursor-pointer' onClick={()=>menuDekstop === false ? setMenuDekstop(true) : setMenuDekstop(false)}>
+                        <ProfilePict className='w-12 h-12 rounded-full p-1' icon='w-7 h-7' />
+                    </div>
+                    }
                     { menuDekstop === true ?
                     <div className="absolute top-14 left-72 border-2 bg-white w-[14rem] p-4 grid font-semibold rounded-lg">
                         <button className='hover:opacity-50 w-max ml-auto' onClick={()=>navigate('/profile')}>Profile</button>
@@ -85,7 +92,7 @@ const Navbar = () => {
                         </svg>
                         }
                     </div>
-                    <div className={`duration-500 absolute top-0 left-0 bg-white shadow-lg w-full transition-all ${menu === true ? 'mt-24' : '-mt-[500px]' }`}>
+                    <div className={`duration-500 fixed top-0 left-0 bg-white shadow-lg w-full transition-all ${menu === true ? 'mt-[90px]' : '-mt-[500px]' }`}>
                         { token ?
                             <div className='grid '>
                                 <form onSubmit={()=>navigate(`/search/${key}`)} className="flex mt-5 px-5">

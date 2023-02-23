@@ -12,19 +12,21 @@ const Register = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
     const [show, setShow] = useState(false)
-    const [roles, setRoles] = useState("customer");
+    const [roles, setRoles] = useState('customer');
     const [formRegister, setFormRegister] = useState({
         name: '',
         email: '',
         password: '',
         store_name: '',
-        store_description: '',
-        role: roles
+        store_description: ''
     })
 
-    const handleRole = (e) => {
-        setRoles(e.target.value)
-    }
+    console.log(roles);
+    console.log(formRegister);
+
+    // const handleRole = (e) => {
+    //     setRoles(e.target.value)
+    // }
     
     const handleChange = (e) => {
         setFormRegister({
@@ -41,7 +43,14 @@ const Register = () => {
             await axios({
               method: 'POST',
               url: `${process.env.REACT_APP_API}user/register`,
-              data: formRegister
+              data: {
+                name: formRegister.name,
+                email: formRegister.email,
+                password: formRegister.password,
+                store_name: formRegister.store_name,
+                store_description: formRegister.store_description,
+                role: roles
+              }
             })
             Swal.fire({
               icon: 'warning',
@@ -75,7 +84,9 @@ const Register = () => {
         </div>
       : null }
       <div className="wrapper w-3/4 h-max my-auto lg:w-1/2 mx-auto">
+      <Link to={'/'}>
         <img src={logo} alt="logo" className="mx-auto" />
+      </Link>
         <div className="flex mt-10 w-max mx-auto">
           {roles === "customer" ? (
             <button className="py-2 w-[5.5rem] lg:w-[8rem] text-sm lg:text-md rounded-tl-xl rounded-bl-xl bg-red-600 text-white font-medium">Customer</button>
@@ -102,14 +113,7 @@ const Register = () => {
                 <Input name='store_description' type='text' value={formRegister.store_description} onChange={handleChange} placeholder='Insert your store description' />
             </div>
             : null }
-            <div className="grid">
-                <select name="role" onChange={handleRole} className="bg-red-600 text-white font-medium w-max mx-auto py-1 px-3 text-sm text-center rounded" id="">
-                    <option value="">Confirmation your role</option>
-                    <option value="customer">Customer</option>
-                    <option value="seller">Seller</option>
-                </select>
-                <Button name="Register" className="py-2 mx-auto bg-red-600 rounded-xl text-md text-white w-1/2 font-medium my-5"/>
-            </div>
+            <Button name="Register" className="py-2 mx-auto bg-red-600 rounded-xl text-md text-white w-1/2 font-medium my-5"/>
         </form>
         <p>Already have an account?{" "}<span className="font-semibold"><Link to={"/login"}>Login</Link></span></p>
       </div>
