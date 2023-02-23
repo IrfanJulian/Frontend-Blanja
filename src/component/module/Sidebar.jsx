@@ -7,7 +7,7 @@ import { getDataUser } from '../../redux/action/userAction'
 const Sidebar = ({ onAccount, onProduct, onSelling, onOrder, onAccountCustomer, onShippingAddress, className }) => {
 
     const id = localStorage.getItem('id')
-    const [account, setAccount] = useState(false)
+    const [account] = useState(false)
     const {user} = useSelector((state)=>state.user)
     const dispatch = useDispatch()
     const [Product, setProduct] = useState(false)

@@ -10,7 +10,7 @@ import Pagination from '../../component/base/Pagination'
 
 const Home = () => {
 
-  const [page, setPage] = useState(0)
+  const [setPage] = useState(0)
   const { product } = useSelector((state)=>state.product)
   const dispatch = useDispatch()
 
