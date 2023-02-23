@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import Navbar from '../../component/module/Navbar'
 import CardProducts from '../../component/base/CardProducts'
@@ -12,7 +12,9 @@ import Loading from '../../component/base/Loading'
 
 const ProductDetail = () => {
 
+    const token = localStorage.getItem('token')
     const idUser = localStorage.getItem('id')
+    const navigate = useNavigate()
     const userName = localStorage.getItem('name')
     const {id} = useParams()
     const [search, setSearch] = useState('')
@@ -54,30 +56,34 @@ const ProductDetail = () => {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Add to cart'
           }).then(async(result) => {
-            /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                try {
-                    await axios({
-                        method: 'POST',
-                        url: `${process.env.REACT_APP_API}mybag`,
-                        data: {
-                            user_id: idUser,
-                            user_name: userName,
-                            product_id: id,
-                            product_name: data.name,
-                            price: data.price,
-                            photo: data.photo,
-                            brand: data.brand,
-                            seller_id,
-                        }
-                    })
-                    Swal.fire('Add to cart success!', '', 'success')
-                } catch (error) {
-                    Swal.fire('Add to cart failed!', '', 'error')
-                    console.log(error);
+                if(token){                    
+                    try {
+                        await axios({
+                            method: 'POST',
+                            url: `${process.env.REACT_APP_API}mybag`,
+                            data: {
+                                user_id: idUser,
+                                user_name: userName,
+                                product_id: id,
+                                product_name: data.name,
+                                price: data.price,
+                                photo: data.photo,
+                                brand: data.brand,
+                                seller_id,
+                            }
+                        })
+                        Swal.fire('Add to cart success!', '', 'success')
+                    } catch (error) {
+                        Swal.fire('Add to cart failed!', '', 'error')
+                        console.log(error);
+                    }
+                }else{
+                    Swal.fire('Login for add to cart!!', '', 'info')
+                    navigate('/login')
                 }
             } else if (result.isDenied) {
-              Swal.fire('Changes are not saved', '', 'info')
+              Swal.fire('Failed add to cart', '', 'info')
             }
         })
     }
