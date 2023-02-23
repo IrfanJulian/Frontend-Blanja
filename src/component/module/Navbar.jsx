@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getDataUser } from '../../redux/action/userAction'
 import { Link, useNavigate } from 'react-router-dom'
 
-const Navbar = ({ search }) => {
+const Navbar = () => {
 
     const id = localStorage.getItem('id')
     const dispatch = useDispatch()
@@ -40,7 +40,7 @@ const Navbar = ({ search }) => {
                 <input onChange={(e)=>setKey(e.target.value)} name='key' value={key} type="text" className='py-2 outline-none w-11/12 px-4 rounded-bl-full rounded-tl-full border-l-2 border-b-2 border-t-2' placeholder='Search something.....' />
                 <button type='sunmit' className='py-2 border-r-2 w-1/12 border-b-2 border-t-2 rounded-br-full rounded-tr-full pr-3 md:pr-0 md:pl-4'><img src={searchIcon} alt="search" /></button>
             </form>
-            { user  ?
+            { user && token ?
             <div className="menuWrapper relative hidden md:flex md:w-4/12">
                 <button className='hover:opacity-70 mr-auto'><img src={filter} alt="filter" className='ml-3' /></button>
                 <button onClick={()=>navigate('/my-bag')} className='mr-14 hover:opacity-70'><img src={cart} alt="cart" /></button>
