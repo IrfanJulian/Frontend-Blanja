@@ -44,8 +44,8 @@ const Register = () => {
               data: formRegister
             })
             Swal.fire({
-              icon: 'success',
-              title: 'Register success',
+              icon: 'warning',
+              title: 'Check email',
               text: 'Check your email to get OTP'
             })
             setLoading(true)
@@ -65,8 +65,6 @@ const Register = () => {
               })
         }
     }
-
-    console.log(formRegister);
 
   return (
     <div className='py-10 grid h-screen' id='font-custom'>
