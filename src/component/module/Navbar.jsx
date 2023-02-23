@@ -19,13 +19,18 @@ const Navbar = () => {
     const { user } = useSelector((state)=>state.user)
     const [menu, setMenu] = useState(false)
     const [key, setKey] = useState('')
-    const image = user.photo
+    const [image, setImage] = useState('')
 
     const [menuDekstop, setMenuDekstop] = useState(false)
 
     useEffect(()=>{
         dispatch(getDataUser(id))
-    }, [dispatch, id])
+        if(user){
+            setImage(user.photo)
+        }else{
+            setImage('')
+        }
+    }, [dispatch, id, user])
 
   return (
     <div className='md:shadow-lg md:py-10 md:fixed-top md:bg-white' id='font-custom'>
