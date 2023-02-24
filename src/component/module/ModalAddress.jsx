@@ -13,9 +13,9 @@ const ModalAddress = ({ clickClose, openAddAddress }) => {
   }, [dispatch, id])
 
   return (
-    <div className='absolute top-20 w-screen h-screen left-0'>
+    <div className=''>
         <div onClick={clickClose} className="fixed top-0 left-0 w-screen h-screen bg-black opacity-40"></div> 
-        <div className='fixed top-1/4 wrapper mt-40 w-screen h-max'>
+        <div className='fixed top-1/4 wrapper w-screen h-max'>
         { user ? 
           <div className="w-10/12 m-auto md:w-5/12 border-2 mx-auto h-max border-black rounded-xl bg-white md:p-8 p-3">
             <p className='text-2xl md:text-4xl font-semibold'>Your Address</p>

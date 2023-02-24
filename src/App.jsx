@@ -4,6 +4,7 @@ import ForgotPassword from './pages/auth/forgot password';
 import ChangePassword from './pages/auth/forgot password/checngePassword';
 import Login from './pages/auth/login';
 import OTP from './pages/auth/otp';
+import OTPForgotPassword from './pages/auth/otp/otp2';
 import Register from './pages/auth/register';
 import Checkout from './pages/checkout';
 import Home from './pages/home';
@@ -24,6 +25,7 @@ function App() {
           <Route path='/login' element={<Login/>} />
           <Route path='/register' element={<Register/>} />
           <Route path='/otp/:email' element={<OTP/>} />
+          <Route path='/otp-forgot-password/:email' element={<OTPForgotPassword/>} />
           <Route path='/forgot-password' element={<ForgotPassword/>} />
           <Route path='/change-password/:email' element={<ChangePassword/>} />
           <Route path='/profile' element={<Profile/>} />

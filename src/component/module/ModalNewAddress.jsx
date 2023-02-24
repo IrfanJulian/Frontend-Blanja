@@ -42,9 +42,9 @@ const ModalNewAddress = ({ clickClose, cancel }) => {
   }
 
   return (
-    <div className='absolute top-20 left-0'>
-        <div onClick={clickClose} className="h-screen md:h-screen w-screen bg-black opacity-40"></div> 
-        <div className="wrap fixed top-1/4">
+    <div className=''>
+        <div onClick={cancel} className='fixed top-0 left-0 h-screen w-screen'></div>
+        <div className="wrap fixed w-screen h-max top-1/4">
           <div className="w-10/12 mx-auto border-2 border-black md:w-5/12 rounded-xl bg-white p-3 md:p-8">
               <p className='text-2xl md:text-4xl font-semibold'>Add New Address</p>
               <hr className='my-5 border-t border-black' />

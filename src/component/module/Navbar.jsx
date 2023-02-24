@@ -46,14 +46,15 @@ const Navbar = () => {
                 <input onChange={(e)=>setKey(e.target.value)} name='key' value={key} type="text" className='py-2 outline-none w-11/12 px-4 rounded-bl-full rounded-tl-full border-l-2 border-b-2 border-t-2' placeholder='Search something.....' />
                 <button type='sunmit' className='py-2 border-r-2 w-1/12 border-b-2 border-t-2 rounded-br-full rounded-tr-full pr-3 md:pr-0 md:pl-4'><img src={searchIcon} alt="search" /></button>
             </form>
-            { user && token ?
+            { token ?
             <div className="menuWrapper relative hidden md:flex md:w-4/12">
                 <button className='hover:opacity-70 mr-auto'><img src={filter} alt="filter" className='ml-3' /></button>
                 <button onClick={()=>navigate('/my-bag')} className='mr-14 hover:opacity-70'><img src={cart} alt="cart" /></button>
                 <button className='hover:opacity-70 mr-14'><img src={notif} alt="notif" /></button>
                 <button className='hover:opacity-70 mr-14'><img src={message} alt="message" /></button>
+                {/* {user ? } */}
                 <div className="grid">
-                    { image && image.length !== 0 ?
+                    { user && image && image.length !== 0 ?
                     <button onClick={()=>menuDekstop === false ? setMenuDekstop(true) : setMenuDekstop(false)}>
                         <img src={user.photo} alt="user" className='w-12 h-12 rounded-full' />
                     </button>

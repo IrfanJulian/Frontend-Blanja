@@ -15,7 +15,17 @@ const ChangePassword = () => {
 
     const handleVerification = async(e) => {
         e.preventDefault()
-        if(password === password2){
+        if(password.length < 8){
+            Swal.fire({
+                icon: 'error',
+                title: 'Password min 8 character.'
+              })
+        }else if(password !== password2){
+            Swal.fire({
+                icon: 'error',
+                title: 'Password does not match.'
+            })
+        }else{
             try {
                 await axios({
                     method: 'PUT',
@@ -37,19 +47,10 @@ const ChangePassword = () => {
                     text: 'Something went wrong!'
                   })
             }
-        }else if(password.length < 8){
-            Swal.fire({
-                icon: 'error',
-                title: 'Password min 8 character.'
-              })
-        }else{
-            Swal.fire({
-                icon: 'error',
-                title: 'Password does not match.'
-            })
         }
     }
-
+console.log(password);
+console.log(password2);
   return (
     <div className='py-10 grid h-screen' id='font-custom'>
         <div className="wrapper w-3/4 h-max my-auto lg:w-1/2 mx-auto">
